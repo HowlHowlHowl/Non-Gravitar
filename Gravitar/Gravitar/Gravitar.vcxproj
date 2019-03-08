@@ -70,8 +70,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)SDL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)SDL\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)SFML\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)SFML\lib;$(LibraryPath)</LibraryPath>
     <OutDir>..\build\</OutDir>
     <IntDir>..\build\intermediate\</IntDir>
   </PropertyGroup>
@@ -89,9 +89,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib; SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>

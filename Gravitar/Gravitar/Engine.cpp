@@ -1,7 +1,8 @@
 #include "Engine.h"
 #include <SFML\Graphics.hpp>
+#include <iostream>
 using namespace sf;
-
+using namespace std;
 
 Engine::Engine()
 {
@@ -11,57 +12,69 @@ Engine::Engine()
 	//resolution.y = VideoMode::getDesktopMode().height;
 
 	//Gioco in finestra
-	m_Window.create(VideoMode(800, 600),
+	finestra.create(VideoMode(800, 600),
 		"Gravitar Game Engine");
+	finestra.setFramerateLimit(60);
 }
 void Engine::start(){
+
 	//Loop in game
-	while (m_Window.isOpen())
-	{		
-		input();
+	Clock clock;
+	float dt;
+	
+	while (finestra.isOpen())
+	{
+		//restart del clock
+		dt = clock.restart().asSeconds();
+		
+		//Lettura input, passo il moltiplicatore per fps
+		input(dt);
+		//Update della scena
 		update();
+		//Disegno della scena
 		draw();
+
+		/* DEBUG */
+		cout<<"Frame: "<< dt << "\n";
 	}
 }
 
 
-void Engine::input() {
+void Engine::input(float dt) {
 	//Chiusura con 'ESC'
 	if (Keyboard::isKeyPressed(Keyboard::Escape))
 	{
-		m_Window.close();
+		finestra.close();
 	}
-
 	//Controllo direzione
 	if (Keyboard::isKeyPressed(Keyboard::Left))
 	{
-		astronave.Left();
+		astronave.left_m(dt);
 	}
 	else if (Keyboard::isKeyPressed(Keyboard::Right))
 	{
-		astronave.Right();
+		astronave.right_m(dt);
 	}
 	else if (Keyboard::isKeyPressed(Keyboard::Up))
 	{
-		astronave.Up();
+		astronave.up_m(dt);
 	}
 	else if (Keyboard::isKeyPressed(Keyboard::Down)) {
-		astronave.Down();
+		astronave.down_m(dt);
 	}
 
 }
 void Engine::update() {
-
 	//Update dei GameObject
 	astronave.update();
 }
 void Engine::draw() {
 
-	m_Window.clear(Color::Black);
-	m_Window.draw(astronave.getShape());
+	finestra.clear(Color::Black);
+	finestra.draw(astronave.getShape());
 
 	//Disegno della scena
-	m_Window.display();
+	finestra.display();
 }
 
 

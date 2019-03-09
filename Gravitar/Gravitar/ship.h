@@ -4,17 +4,16 @@ using namespace sf;
 class ship
 {
 	protected:
+		float speed = 60.f;
 		float xpos;
 		float ypos;
-		float speed = .1f;
 		RectangleShape shape;
-
-	public:		
-		ship();
-		void Left();
-		void Right();
-		void Up();
-		void Down();
+	public:	
+		void left_m(float dt);
+		void right_m(float dt);
+		void up_m(float dt);
+		void down_m(float dt);
+		ship();		
 		void update();
 		RectangleShape getShape();
 };

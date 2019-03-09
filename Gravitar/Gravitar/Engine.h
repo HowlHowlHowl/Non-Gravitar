@@ -6,15 +6,14 @@ using namespace sf;
 class Engine
 {
 protected:
-
 	//Finestra
-	RenderWindow m_Window;
+	RenderWindow finestra;
 
 	//GameObject
 	ship astronave;
 
 	// Funzioni interne
-	void input();
+	void input(float dt);
 	void update();
 	void draw();
 

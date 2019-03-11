@@ -1,17 +1,19 @@
 #include "ship.h"
 #include <SFML\Graphics.hpp>
+#include "bullet.h";
+
 using namespace sf;
 
 //Costruttore
 ship::ship()
 {
-	xpos = 0;
-	ypos = 0;
+	isShooting = false;
+	xpos = 0.f;
+	ypos = 0.f;
 	shape.setSize(sf::Vector2f(30, 30));
 	shape.setFillColor(Color::Red);
 	shape.setPosition(xpos, ypos);
 }
-
 //Movimento
 void ship::up_m(float dt) {
 	xpos += 0.f;
@@ -33,11 +35,17 @@ void ship::left_m(float dt) {
 	ypos += 0.f;
 	
 }
-
 //Funzioni utili
 void ship::update(){
 	shape.setPosition(xpos, ypos);
+
+	if(isShooting)
+	bullet bull(xpos, ypos);
+
 }
 RectangleShape ship::getShape() {
 	return shape;
+}
+Vector2f ship::getPosition() {
+	return Vector2f(xpos,ypos);
 }

@@ -1,20 +1,22 @@
 #pragma once
 #include <SFML\Graphics.hpp>
 #include "ship.h";
+#include "bullet.h";
+#include "Planet.h";
 
 using namespace sf;
 class Engine
 {
 protected:
+
 	//Finestra
 	RenderWindow finestra;
 
 	//GameObject
-	ship astronave;
+	Planet planet;
 
 	// Funzioni interne
-	void input(float dt);
-	void update();
+	void update(float dt);
 	void draw();
 
 public:

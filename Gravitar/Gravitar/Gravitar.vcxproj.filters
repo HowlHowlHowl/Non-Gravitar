@@ -24,12 +24,24 @@
     <ClCompile Include="Engine.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="bullet.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="Planet.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ship.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="Engine.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="bullet.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="Planet.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>

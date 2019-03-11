@@ -8,6 +8,7 @@ class ship
 		float xpos;
 		float ypos;
 		RectangleShape shape;
+		bool isShooting;
 	public:	
 		void left_m(float dt);
 		void right_m(float dt);
@@ -16,5 +17,6 @@ class ship
 		ship();		
 		void update();
 		RectangleShape getShape();
+		Vector2f getPosition();
 };
 

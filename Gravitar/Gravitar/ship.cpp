@@ -1,6 +1,7 @@
 #include "ship.h"
 #include <SFML\Graphics.hpp>
-#include "bullet.h";
+#include "bullet.h"
+
 using namespace sf;
 int const ALT = 600;
 int const LAR = 800;

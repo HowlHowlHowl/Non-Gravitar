@@ -1,9 +1,11 @@
 #pragma once
 #include <SFML\Graphics.hpp>
 using namespace sf;
+
 class ship
 {
 	protected:
+		float carburante = 10000.f;
 		float speed = 60.f;
 		float xpos;
 		float ypos;
@@ -18,5 +20,6 @@ class ship
 		void update();
 		RectangleShape getShape();
 		Vector2f getPosition();
+		bool canMoving();
 };
 

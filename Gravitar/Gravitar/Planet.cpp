@@ -1,42 +1,32 @@
 #include "Planet.h"
+#include <iostream>;
 
 Planet::Planet()
 {
 	nbunker = 0;
 	circumnference = 0;
 }
-void Planet::update(float dt){
-// Lettura input
-//dt = tempo totale di ogni frame
-//cosi da rendere il gioco indipendente dal frame-rate
-	
-	if (ship.canMoving()) {
-		if (Keyboard::isKeyPressed(Keyboard::Left))
-		{
-			ship.left_m(dt);
-		}
-		else if (Keyboard::isKeyPressed(Keyboard::Right))
-		{
-			ship.right_m(dt);
-		}
-		else if (Keyboard::isKeyPressed(Keyboard::Up))
-		{
-			ship.up_m(dt);
-		}
-		else if (Keyboard::isKeyPressed(Keyboard::Down)) {
-			ship.down_m(dt);
-		}
-	}
+void Planet::update(float dt,ship ship){
 	//Aggiornamento gameobject
-	ship.update();
-
+	
+	//Check delle collisioni
+	collisions(ship);
+}
+void Planet::collisions(ship ship) {
+	//astronvave collision
+	if (rett.getGlobalBounds().intersects(ship.getShape().getGlobalBounds())) {
+		std::cout << "COllision!";
+		ship.Destroy();
+	}
 }
 void Planet::draw(RenderWindow &window){
 
 
 	//Disegno dei gameobject
-	window.draw(ship.getShape());	
-
+	rett.setSize(sf::Vector2f(30, 30));
+	rett.setFillColor(Color::Red);
+	rett.setPosition(100, 400);
+	window.draw(rett);
 
 }
 void Planet::destroyed(){}

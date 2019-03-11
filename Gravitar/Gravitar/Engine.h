@@ -42,9 +42,10 @@ protected:
 	
 	*/
 	Planet planet;
-
+	ship ship;
 	// Funzioni interne
 	void update(float dt);
+	void input(float dt);
 	void draw();
 
 public:

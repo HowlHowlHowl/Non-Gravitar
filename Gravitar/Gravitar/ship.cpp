@@ -1,6 +1,7 @@
 #include "ship.h"
 #include <SFML\Graphics.hpp>
 #include "bullet.h"
+#include <iostream>
 
 using namespace sf;
 int const ALT = 600;
@@ -9,12 +10,21 @@ int const LAR = 800;
 //Costruttore
 ship::ship()
 {
-	isShooting = false;
-	xpos = 0.f;
-	ypos = 0.f;
+	
 	shape.setSize(sf::Vector2f(30, 30));
 	shape.setFillColor(Color::Red);
-	shape.setPosition(xpos, ypos);
+	life = 3;
+	init();
+}
+void ship::init(){
+
+	//Respawn
+	std::cout << "SPAWN";
+	isShooting = false;
+	this->xpos = 100.f;
+	this->ypos = 100.f;
+	this->update();
+	life--;
 }
 //Movimento
 void ship::up_m(float dt) {
@@ -43,18 +53,21 @@ void ship::update(){
 
 	//EFFETTO PACMAN
 	if (xpos > LAR)
-		xpos = 0;
-	else if (xpos < 0)
 		xpos = LAR;
+	else if (xpos < 0)
+		xpos = 0;
 	else if (ypos > ALT)
-		ypos = 0;
-	else if (ypos < 0)
 		ypos = ALT;
+	else if (ypos < 0)
+		ypos = 0;
 	
 	shape.setPosition(xpos, ypos);
-	if(isShooting)
-	bullet bull(xpos, ypos);
 
+}
+void ship::Destroy() {
+
+	//Astronave distrutta, ripristino le impotazioni e aggiorno la vita
+	init();
 }
 RectangleShape ship::getShape() {
 	return shape;

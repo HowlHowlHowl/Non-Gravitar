@@ -22,6 +22,14 @@ void Engine::start(){
 	float dt;	
 	while (finestra.isOpen())
 	{
+		sf::Event event;
+		while (finestra.pollEvent(event))
+		{
+			// Close window: exit
+			if (event.type == sf::Event::Closed)
+				finestra.close();
+		}
+
 		//restart del clock
 		dt = clock.restart().asSeconds();
 		//Update della scena
@@ -33,7 +41,8 @@ void Engine::start(){
 		//cout<<"Frame: "<< dt << "\n";
 	}
 }
-void Engine::update(float dt) {
+void Engine::update(float dt) {	
+
 	if (Keyboard::isKeyPressed(Keyboard::Escape))
 	{
 		finestra.close();

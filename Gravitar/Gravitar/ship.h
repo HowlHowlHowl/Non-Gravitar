@@ -1,5 +1,7 @@
 #pragma once
 #include <SFML\Graphics.hpp>
+#include <vector>
+#include "bullet.h"
 using namespace sf;
 
 class ship
@@ -10,19 +12,23 @@ class ship
 		float xpos;
 		float ypos;
 		RectangleShape shape;
-		bool isShooting;
 		int life;
+		float shootCooldown = 0.5f;
+		float shootTimer = 0.f;
+
 	public:	
 		void left_m(float dt);
 		void right_m(float dt);
 		void up_m(float dt);
 		void down_m(float dt);
 		ship();		
-		void update();
+		void update(float dt,std::vector<Bullet> &bullets);
+		void draw(RenderWindow &finestra);
 		void init();
-		RectangleShape getShape();
 		Vector2f getPosition();
 		bool canMoving();
+		RectangleShape getShape();
 		void Destroy();
+		void shoot(std::vector<Bullet> &bullets);
 };
 

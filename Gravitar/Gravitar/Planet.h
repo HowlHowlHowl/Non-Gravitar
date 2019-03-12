@@ -1,5 +1,6 @@
 #pragma once
-#include "ship.h";
+#include "ship.h"
+
 class Planet
 {
 protected:
@@ -8,9 +9,9 @@ protected:
 	RectangleShape rett;
 public:
 	Planet();
-	void update(float dt,ship ship);
+	void update(float dt,ship &ship);
 	void draw(RenderWindow &window);
-	void collisions(ship ship);
+	void collisions(ship &ship);
 	void destroyed();
 	void created();
 };

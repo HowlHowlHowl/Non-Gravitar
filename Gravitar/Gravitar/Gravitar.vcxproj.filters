@@ -44,5 +44,11 @@
     <ClInclude Include="Planet.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ToDo.txt" />
   </ItemGroup>
 </Project>

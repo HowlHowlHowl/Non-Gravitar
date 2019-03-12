@@ -1,9 +1,9 @@
 #pragma once
 #include <SFML\Graphics.hpp>
-#include "ship.h";
-#include "bullet.h";
-#include "Planet.h";
-
+#include "ship.h"
+#include "bullet.h"
+#include "Planet.h"
+#include <vector>
 using namespace sf;
 class Engine
 {
@@ -13,39 +13,12 @@ protected:
 	RenderWindow finestra;
 
 	//GameObject
-
-	/*COMMENTO GIGANTE FRUTTO DI BOTTA DELLE 12.47 dopo 3 ore di mughetti:
-	magari l'engine lo mettiamo come variabile globale, cosi tutti possono chiamare i metodi 
-	Engine:
-		_1 astronave
-		_1 sistema solare generato allinizio e rigenerato quando vengono distrutti tutti di pianeti
-		_Funzioni gustose per start, update e end.
-		_bool che dice se siamo in un pianeta o nel sistema
-		_indice che dice in che pianeta siamo
-		_array di proiettili e update di essi
-	Sistema solare: (forse si puo paccare e tenere direttamente l'array di pianeti nell'engine
-		_std::vector di pianeti che vengono generati alla creazione del SS e eliminati quando viene distrutto un pianeta.
-	Pianeta:
-		_ha un vector di puntatori a bunker che "puttana combinazione" possono anche essere bunker di livello 2
-		_ha un array di punti che descrivono il terreno (ci pensa dario).
-		_in piu potrebbe gestire lo spawn della broda magari tenendola in un vector di brode, meglio conosciuto come il benzinaro.
-		_ha un array di fuel che mantiene sul terreno.
-	Ship:
-		_Ha una vita, un carburante, una velocita' e un booleano che non sappiamo ancora cosa serve.
-		_Ha metodi per muoversi, per sparare, per raccoglie, e deve registrare le collisioni con le pareti e il terreno.
-	Bunker:
-		_Ha una vita, e spara.
-		_Viene spawnato alla creazione del pianeta.
-		_Ha una sottoclasse che overrida la funzione shoot sicché spara 3 invece di 2 proiettili.
-	Fuel:
-		_Viene spawnato dal pianeta ogni tanto random.
-	
-	*/
 	Planet planet;
 	ship ship;
+	std::vector<Bullet> shipBullets;
+
 	// Funzioni interne
 	void update(float dt);
-	void input(float dt);
 	void draw();
 
 public:

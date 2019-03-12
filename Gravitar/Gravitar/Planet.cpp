@@ -1,21 +1,21 @@
 #include "Planet.h"
-#include <iostream>;
+#include <iostream>
 
 Planet::Planet()
 {
 	nbunker = 0;
 	circumnference = 0;
 }
-void Planet::update(float dt,ship ship){
+void Planet::update(float dt,ship &ship){
 	//Aggiornamento gameobject
 	
 	//Check delle collisioni
 	collisions(ship);
 }
-void Planet::collisions(ship ship) {
+void Planet::collisions(ship &ship) {
 	//astronvave collision
 	if (rett.getGlobalBounds().intersects(ship.getShape().getGlobalBounds())) {
-		std::cout << "COllision!";
+		std::cout << "COllision!" << std::endl;
 		ship.Destroy();
 	}
 }

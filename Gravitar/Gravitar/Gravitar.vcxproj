@@ -134,8 +134,12 @@
   <ItemGroup>
     <ClInclude Include="bullet.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="Planet.h" />
     <ClInclude Include="ship.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ToDo.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

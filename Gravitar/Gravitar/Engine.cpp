@@ -24,34 +24,13 @@ void Engine::start(){
 	{
 		//restart del clock
 		dt = clock.restart().asSeconds();
-		
-		input(dt);
 		//Update della scena
 		update(dt);
 		//Disegno della scena
 		draw();
 
 		/* DEBUG */
-		cout<<"Frame: "<< dt << "\n";
-	}
-}
-void Engine::input(float dt) {
-	if (ship.canMoving()) {
-		if (Keyboard::isKeyPressed(Keyboard::Left))
-		{
-			ship.left_m(dt);
-		}
-		else if (Keyboard::isKeyPressed(Keyboard::Right))
-		{
-			ship.right_m(dt);
-		}
-		else if (Keyboard::isKeyPressed(Keyboard::Up))
-		{
-			ship.up_m(dt);
-		}
-		else if (Keyboard::isKeyPressed(Keyboard::Down)) {
-			ship.down_m(dt);
-		}
+		//cout<<"Frame: "<< dt << "\n";
 	}
 }
 void Engine::update(float dt) {
@@ -61,16 +40,28 @@ void Engine::update(float dt) {
 	}
 
 	//Update del pianeta in cui ci si trova
-	ship.update();
+	ship.update(dt,shipBullets);
 	planet.update(dt,ship);
+
+	for (int i = 0; i < shipBullets.size(); i++)
+	{
+		shipBullets[i].update(dt);
+	}
+
 	
 }
 void Engine::draw() {
 
 	finestra.clear(Color::Black);
-	finestra.draw(ship.getShape());
+	ship.draw(finestra);
 	planet.draw(finestra);
 	
+	//Disegno proiettili
+	for (int i = 0; i < shipBullets.size(); i++)
+	{
+		shipBullets[i].draw(finestra);
+	}
+
 	//Disegno della scena
 	finestra.display();
 }

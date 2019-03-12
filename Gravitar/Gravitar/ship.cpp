@@ -2,6 +2,7 @@
 #include <SFML\Graphics.hpp>
 #include "bullet.h"
 #include <iostream>
+#include <sstream>
 
 using namespace sf;
 int const ALT = 600;
@@ -49,46 +50,43 @@ void ship::left_m(float dt) {
 //Sparo e raccolta
 void ship::shoot(std::vector<Bullet> &bullets) {
 	std::cout << "BIm"<< std::endl;
-	Bullet *b = new Bullet(xpos, ypos, DOWN,false);
+	Bullet *b = new Bullet(xpos, ypos, dir,false);
 	bullets.push_back(*b);
 }
 //Funzioni utili
 void ship::update(float dt,std::vector<Bullet> &bullets){
-	shootTimer += dt;
+
 	//Movimento ship
 	if (canMoving()) {
 		if (Keyboard::isKeyPressed(Keyboard::Left))
 		{
 			left_m(dt);
+			dir = LEFT;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Right))
 		{
 			right_m(dt);
+			dir = RIGHT;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Up))
 		{
 			up_m(dt);
+			dir = UP;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Down)) {
 			down_m(dt);
+			dir = DOWN;
 		}
 	}
-
+	
 	//Sparo
+	shootTimer += dt;
 	if (Keyboard::isKeyPressed(Keyboard::Space) && shootTimer > shootCooldown) {
 		shootTimer = 0;
 		shoot(bullets);
 	}
-	//EFFETTO PACMAN
-	if (xpos > LAR)
-		xpos = LAR;
-	else if (xpos < 0)
-		xpos = 0;
-	else if (ypos > ALT)
-		ypos = ALT;
-	else if (ypos < 0)
-		ypos = 0;
-	
+
+	//Aggiornamento posizione
 	shape.setPosition(xpos, ypos);
 
 }

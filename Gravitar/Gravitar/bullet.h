@@ -8,7 +8,7 @@ class Bullet
 protected:
 	float xpos;
 	float ypos;
-	float speed = 120.f;
+	float speed = 180.f;
 	CircleShape shape;
 	bool isEnemy;
 	direction dir;

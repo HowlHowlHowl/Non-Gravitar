@@ -2,6 +2,7 @@
 #include <SFML\Graphics.hpp>
 #include <vector>
 #include "bullet.h"
+#include "Global.h"
 using namespace sf;
 
 class ship
@@ -15,6 +16,7 @@ class ship
 		int life;
 		float shootCooldown = 0.5f;
 		float shootTimer = 0.f;
+		direction dir;
 
 	public:	
 		void left_m(float dt);

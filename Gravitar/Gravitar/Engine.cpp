@@ -51,12 +51,14 @@ void Engine::update(float dt) {
 	//Update del pianeta in cui ci si trova
 	ship.update(dt,shipBullets);
 	planet.update(dt,ship);
-
+	//Spawn dei proiettili
 	for (int i = 0; i < shipBullets.size(); i++)
 	{
 		shipBullets[i].update(dt);
 	}
 
+	//Collisioni del pianeta
+	planet.collisions(ship, shipBullets);
 	
 }
 void Engine::draw() {

@@ -11,7 +11,7 @@ public:
 	Planet();
 	void update(float dt,ship &ship);
 	void draw(RenderWindow &window);
-	void collisions(ship &ship);
+	void collisions(ship &ship, std::vector<Bullet> shipBullets);
 	void destroyed();
 	void created();
 };

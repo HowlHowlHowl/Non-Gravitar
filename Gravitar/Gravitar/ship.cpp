@@ -11,8 +11,8 @@ int const LAR = 800;
 //Costruttore e inizializzazione
 ship::ship()
 {
-	
 	shape.setSize(sf::Vector2f(30, 30));
+	shape.setOrigin(shape.getSize() / 2.0f);
 	shape.setFillColor(Color::Red);
 	life = 4;
 	init();
@@ -21,8 +21,8 @@ void ship::init(){
 
 	//Respawn
 	std::cout << "SPAWN" << std::endl;
-	this->xpos = 0.f;
-	this->ypos = 0.f;
+	this->xpos = VIEWPORT_WIDTH / 2.0f;
+	this->ypos = VIEWPORT_HEIGHT / 10.0f;
 	life--;
 }
 //Funzioni di Movimento

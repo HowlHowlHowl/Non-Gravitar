@@ -12,8 +12,9 @@ Engine::Engine()
 	//resolution.y = VideoMode::getDesktopMode().height;
 
 	//Gioco in finestra
-	finestra.create(VideoMode(800, 600),"Gravitar Game Engine");
+	finestra.create(VideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT),"Gravitar Game Engine");
 	finestra.setFramerateLimit(60);
+	srand(time(0));
 }
 void Engine::start(){
 
@@ -28,6 +29,18 @@ void Engine::start(){
 			// Close window: exit
 			if (event.type == sf::Event::Closed)
 				finestra.close();
+
+			if (event.type == sf::Event::KeyPressed)
+			{
+				if(event.key.code == Keyboard::Return)
+				{
+					planet.generateRandomTerrain();
+				}
+				if (event.key.code == Keyboard::BackSpace)
+				{
+					planet.getRandomPointOnTerrain();
+				}
+			}
 		}
 
 		//restart del clock

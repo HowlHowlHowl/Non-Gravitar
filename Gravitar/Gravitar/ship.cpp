@@ -13,16 +13,21 @@ ship::ship()
 {
 	shape.setSize(sf::Vector2f(30, 30));
 	shape.setOrigin(shape.getSize() / 2.0f);
-	shape.setFillColor(Color::Red);
+	shape.setFillColor(Color::White);
 	life = 4;
 	init();
 }
 void ship::init(){
-
 	//Respawn
 	std::cout << "SPAWN" << std::endl;
+
+	/*
 	this->xpos = VIEWPORT_WIDTH / 2.0f;
 	this->ypos = VIEWPORT_HEIGHT / 10.0f;
+	*/
+
+	this->xpos = 50.f;
+	this->ypos = 50.f;
 	life--;
 }
 //Funzioni di Movimento
@@ -54,7 +59,7 @@ void ship::shoot(std::vector<Bullet> &bullets) {
 	bullets.push_back(*b);
 }
 //Funzioni utili
-void ship::update(float dt,std::vector<Bullet> &bullets){
+void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem){
 
 	//Movimento ship
 	if (canMoving()) {
@@ -79,11 +84,13 @@ void ship::update(float dt,std::vector<Bullet> &bullets){
 		}
 	}
 	
-	//Sparo
-	shootTimer += dt;
-	if (Keyboard::isKeyPressed(Keyboard::Space) && shootTimer > shootCooldown) {
-		shootTimer = 0;
-		shoot(bullets);
+	//Spara se non e' nel sistema
+	if (!isInSystem) {
+		shootTimer += dt;
+		if (Keyboard::isKeyPressed(Keyboard::Space) && shootTimer > shootCooldown) {
+			shootTimer = 0;
+			shoot(bullets);
+		}
 	}
 
 	//Aggiornamento posizione

@@ -1,11 +1,17 @@
 #include "Planet.h"
+#include <SFML\Graphics.hpp>
 #include <iostream>
 #include <vector>
-
 #include "utils.h"
+
 Planet::Planet()
 {
-	nbunker = 0;
+	//Impostazioni icona del pianeta
+	icon.setRadius(20.f);
+	icon.setFillColor(sf::Color(rand() % 255, rand() % 255, rand() % 255));
+	icon.setPosition(rand() % VIEWPORT_WIDTH ,rand() % VIEWPORT_HEIGHT);
+
+	nbunker = 2;
 	circumnference = 0;
 	rett.setPosition(100, 400);
 
@@ -25,13 +31,16 @@ void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets) {
 
 	//Proiettili collision
 	for (int i = 0; i < shipBullets.size(); i++) {
+
+		//Collisione con il rettangolo ( bunker temporaneo )
 		if (shipBullets[i].getShape().getGlobalBounds().intersects(rett.getGlobalBounds())) {
 
+			nbunker--;
 			//Spawn del rettangolo random
 			int i = (rand() % 800) + 1;
 			int j = (rand() % 600) + 1;
 			rett.setPosition(i, j);
-
+			
 		}
 	}
 }
@@ -45,10 +54,16 @@ void Planet::draw(RenderWindow &window){
 	window.draw(terrainVertices.data(), terrainVertices.size(), sf::LinesStrip);
 	window.draw(rett);
 }
-void Planet::destroyed(){}
+void Planet::drawIcon(RenderWindow &window){
+	window.draw(icon);
+}
+bool Planet::destroyed(){
+	if (nbunker <= 0)
+		return true;
+	return false;
+}
 void Planet::created(){
 }
-
 bool Planet::intersectsTerrain(RectangleShape rect)
 {
 	Vector2f pos = rect.getPosition();
@@ -73,7 +88,6 @@ bool Planet::intersectsTerrain(RectangleShape rect)
 
 	return false;
 }
-
 void Planet::generateRandomTerrain()
 {
 	int MinY = VIEWPORT_HEIGHT / 2;
@@ -89,7 +103,6 @@ void Planet::generateRandomTerrain()
 		terrainVertices.push_back(vert);
 	}
 }
-
 Vector2f Planet::getRandomPointOnTerrain()
 {
 	int vertIndex = rand() % (terrainVertices.size() - 1);
@@ -105,4 +118,7 @@ Vector2f Planet::getRandomPointOnTerrain()
 
 	rett.setPosition(x, y);
 	return Vector2f(x, y);
+}
+CircleShape Planet::getIcon() {
+	return icon;
 }

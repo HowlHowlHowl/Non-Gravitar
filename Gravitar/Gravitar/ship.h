@@ -24,7 +24,7 @@ class ship
 		void up_m(float dt);
 		void down_m(float dt);
 		ship();		
-		void update(float dt,std::vector<Bullet> &bullets);
+		void update(float dt,std::vector<Bullet> &bullets, bool isInSystem);
 		void draw(RenderWindow &finestra);
 		void init();
 		Vector2f getPosition();

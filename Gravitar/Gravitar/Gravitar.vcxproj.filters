@@ -33,6 +33,9 @@
     <ClCompile Include="utils.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="Bunker.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ship.h">
@@ -53,11 +56,11 @@
     <ClInclude Include="utils.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="Bunker.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ToDo.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="..\..\..\..\..\Desktop\retro.ttf" />
   </ItemGroup>
 </Project>

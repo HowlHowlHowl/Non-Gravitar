@@ -10,10 +10,9 @@ protected:
 	float ypos;
 	float speed = 180.f;
 	CircleShape shape;
-	bool isEnemy;
 	direction dir;
 public:
-	Bullet(float spawn_xpos, float spawn_ypos, direction dir_I,bool isEnemy_I);
+	Bullet(float spawn_xpos, float spawn_ypos, direction dir_I);
 	void update(float dt);
 	void draw(RenderWindow &finestra);
 	void spawn();

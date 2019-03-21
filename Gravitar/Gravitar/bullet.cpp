@@ -3,13 +3,13 @@
 
 using namespace sf;
 
-Bullet::Bullet(float spawn_xpos, float spawn_ypos,direction dir_I,bool isEnemy_I)
+Bullet::Bullet(float spawn_xpos, float spawn_ypos,direction dir_I)
 {
 	xpos = spawn_xpos,
 	ypos = spawn_ypos;
 	dir = dir_I;
-	isEnemy = isEnemy_I;
 	shape.setRadius(10.f);
+	shape.setOrigin(10.f, 10.f);
 	shape.setFillColor(Color::Green);
 }
 void Bullet::update(float dt){

@@ -14,7 +14,7 @@ Engine::Engine()
 	//Gioco in finestra
 	finestra.create(VideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT),"Gravitar Game Engine");
 	finestra.setFramerateLimit(60);
-	srand(time(0));
+	srand((unsigned int)time(0));
 
 	
 	//Menu
@@ -48,7 +48,7 @@ void Engine::start(){
 		while (finestra.pollEvent(event))
 		{
 			// Close window: exit
-			if (event.type == sf::Event::Closed)
+			if (event.type == sf::Event::Closed || event.key.code == sf::Keyboard::Escape)
 				finestra.close();
 
 			if (event.key.code == Keyboard::Tab) {
@@ -63,10 +63,12 @@ void Engine::start(){
 				if(event.key.code == Keyboard::Return)
 				{
 					mapPlanets[NPianeta].generateRandomTerrain();
+					mapPlanets[NPianeta].generateBunkers();
 				}
 				if (event.key.code == Keyboard::BackSpace)
 				{
-					mapPlanets[NPianeta].getRandomPointOnTerrain();
+					float rotation;
+					mapPlanets[NPianeta].getRandomPointOnTerrain(rotation);
 				}
 				
 			}
@@ -86,37 +88,28 @@ void Engine::start(){
 
 void Engine::update(float dt) {	
 
-	if (Keyboard::isKeyPressed(Keyboard::Escape))
-	{
-		finestra.close();
-	}
-
 	//Update astronave
 	ship.update(dt,shipBullets,MenuCamper);
 
 	//Selezione pianeta
 	if (MenuCamper) {
-
 		planetSelection();
 
 		//Pulizia proiettili della nave
 		shipBullets.clear();
 	}
+	else {
+		//Update del pianeta in cui ci si trova
 
-	//Update del pianeta in cui ci si trova
-	if (!MenuCamper) {
-
-		//Spawn dei proiettili
+		//update dei proiettili
 		for (int i = 0; i < shipBullets.size(); i++)
 		{
 			shipBullets[i].update(dt);
 		}
 
 		//Update pianeta
-		mapPlanets[NPianeta].update(dt, ship);
+		mapPlanets[NPianeta].update(dt, ship, shipBullets);
 
-		//Collisioni del pianeta
-		mapPlanets[NPianeta].collisions(ship, shipBullets);
 
 		//Check vite astronave
 		if (!ship.isAlive()) {
@@ -155,9 +148,8 @@ void Engine::draw() {
 			i++;
 		}
 	}
-
 	//Disegno pianeta e dei proiettili
-	if (!MenuCamper) {
+	else {
 		mapPlanets[NPianeta].draw(finestra);
 
 		//Disegno proiettili
@@ -194,7 +186,7 @@ void Engine::gameOver() {
 	//GameOverText
 	sf::Font font;
 	sf::Text text;
-	font.loadFromFile("C:\\Users\\Colo\\Desktop\\retro.ttf");
+	font.loadFromFile("slkscr.ttf");
 
 	//Selezione del font
 	text.setFont(font);
@@ -207,16 +199,23 @@ void Engine::gameOver() {
 
 	finestra.draw(text);
 	finestra.display();
+
+	sf::Event event;
 	
 	while (finestra.isOpen()) {
-		if (Keyboard::isKeyPressed(Keyboard::Escape))
-			finestra.close();
-		
-		if (Keyboard::isKeyPressed(Keyboard::N)) {
-			inGame = false;
-			break;
-		}
+		while (finestra.pollEvent(event))
+		{
+			// Close window: exit
+			if (event.type == sf::Event::Closed)
+				finestra.close();
 
+			if (event.key.code == Keyboard::Escape) {
+				finestra.close();
+			}
+			if (event.key.code == Keyboard::N) {
+				inGame = false;
+			}
+		}
 	}
 
 	return;

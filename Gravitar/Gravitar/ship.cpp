@@ -32,30 +32,29 @@ void ship::init(){
 //Funzioni di Movimento
 void ship::up_m(float dt) {
 	xpos += 0.f;
-	ypos -= 10.f*dt*speed;
+	ypos -= dt*speed;
 	
-	carburante -= 10.f*dt * speed;
+	carburante -= dt * speed;
 }
 void ship::down_m(float dt) {
 	xpos += 0.f;
-	ypos += 10.f*dt*speed;
-	carburante -= 10.f*dt * speed;
+	ypos += dt*speed;
+	carburante -= dt * speed;
 }
 void ship::right_m(float dt) {
-	xpos += 10.f*dt*speed;
+	xpos += dt*speed;
 	ypos += 0.f;
-	carburante -= 10.f*dt * speed;
+	carburante -= dt * speed;
 }
 void ship::left_m(float dt) {
-	xpos -= 10.f*dt*speed;
+	xpos -= dt*speed;
 	ypos += 0.f;
-	carburante -= 10.f*dt * speed;
+	carburante -= dt * speed;
 }
 //Sparo e raccolta
 void ship::shoot(std::vector<Bullet> &bullets) {
 	std::cout << "BIm"<< std::endl;
-	Bullet *b = new Bullet(xpos, ypos, dir,false);
-	bullets.push_back(*b);
+	bullets.emplace_back(xpos, ypos, dir);
 }
 //Funzioni utili
 void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem){

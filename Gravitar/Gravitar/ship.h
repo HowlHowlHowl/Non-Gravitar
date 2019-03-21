@@ -9,7 +9,7 @@ class ship
 {
 	protected:
 		float carburante = 10000.f;
-		float speed = 60.f;
+		float speed = 600.f;
 		float xpos;
 		float ypos;
 		RectangleShape shape;

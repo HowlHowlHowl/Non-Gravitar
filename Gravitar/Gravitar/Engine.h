@@ -9,7 +9,7 @@ using namespace sf;
 class Engine
 {
 protected:
-
+	bool inGame;
 	//Numeri di pianeti
 	int NTotalePianeti = 6;
 
@@ -28,8 +28,11 @@ protected:
 	void draw();
 	void planetSelection();
 
+	void gameOver();
+
 public:
 	Engine();
 	void start();
+	
 };
 

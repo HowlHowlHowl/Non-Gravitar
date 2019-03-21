@@ -23,7 +23,7 @@ Engine::Engine()
 
 	//Generazione mappa dei pianeti
 	int i = 0;
-	while(i <= 6) {
+	while(i <= NTotalePianeti) {
 		Planet *p = new Planet();
 		mapPlanets.push_back(*p);
 			i++;
@@ -34,9 +34,15 @@ void Engine::start(){
 
 	//Loop in game
 	Clock clock;
-	float dt;	
-	while (finestra.isOpen())
+	float dt;
+
+	inGame = true;
+
+	while (finestra.isOpen() && inGame)
 	{
+		//Cancellazione finestra
+		finestra.clear(Color::Black);
+
 		//Eventi
 		sf::Event event;
 		while (finestra.pollEvent(event))
@@ -47,6 +53,9 @@ void Engine::start(){
 
 			if (event.key.code == Keyboard::Tab) {
 				MenuCamper = true;
+
+				//Respawn momentaneo
+				ship.init();
 			}
 			
 			if (event.type == sf::Event::KeyPressed)
@@ -85,9 +94,14 @@ void Engine::update(float dt) {
 	//Update astronave
 	ship.update(dt,shipBullets,MenuCamper);
 
-	//Planets intersect
-	if(MenuCamper)
-	planetSelection();
+	//Selezione pianeta
+	if (MenuCamper) {
+
+		planetSelection();
+
+		//Pulizia proiettili della nave
+		shipBullets.clear();
+	}
 
 	//Update del pianeta in cui ci si trova
 	if (!MenuCamper) {
@@ -104,11 +118,24 @@ void Engine::update(float dt) {
 		//Collisioni del pianeta
 		mapPlanets[NPianeta].collisions(ship, shipBullets);
 
+		//Check vite astronave
+		if (!ship.isAlive()) {
+			gameOver();
+			return;
+		}
+
 		//Check distruzione pianeta
 		if (mapPlanets[NPianeta].destroyed()) {
+
+			//Cancellazione pianeta dalla mappa
 			mapPlanets.erase(mapPlanets.begin() + NPianeta);
 			NTotalePianeti--;
+
+			//Ritorno al menu
 			MenuCamper = true;
+
+			//Respawn dell'astronave
+			ship.init();
 		}
 	}
 }
@@ -154,12 +181,46 @@ void Engine::planetSelection(){
 			flag = true;
 
 			//Respawn momentaneo quando si entra in un pianeta
-			ship.Destroy();
+			ship.init();
 		}
 		i++;
 	}
 }
 
+void Engine::gameOver() {
+
+	finestra.clear(Color::Black);
+
+	//GameOverText
+	sf::Font font;
+	sf::Text text;
+	font.loadFromFile("C:\\Users\\Colo\\Desktop\\retro.ttf");
+
+	//Selezione del font
+	text.setFont(font);
+
+	//set the string to display
+	text.setString("GAME OVER");
+	//set the character size
+	text.setCharacterSize(24);
+	text.setFillColor(sf::Color::White);
+
+	finestra.draw(text);
+	finestra.display();
+	
+	while (finestra.isOpen()) {
+		if (Keyboard::isKeyPressed(Keyboard::Escape))
+			finestra.close();
+		
+		if (Keyboard::isKeyPressed(Keyboard::N)) {
+			inGame = false;
+			break;
+		}
+
+	}
+
+	return;
+}
 
 
 

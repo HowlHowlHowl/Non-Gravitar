@@ -18,11 +18,12 @@ class ship
 		float shootTimer = 0.f;
 		direction dir;
 
-	public:	
 		void left_m(float dt);
 		void right_m(float dt);
 		void up_m(float dt);
 		void down_m(float dt);
+
+	public:	
 		ship();		
 		void update(float dt,std::vector<Bullet> &bullets, bool isInSystem);
 		void draw(RenderWindow &finestra);
@@ -32,5 +33,6 @@ class ship
 		RectangleShape getShape();
 		void Destroy();
 		void shoot(std::vector<Bullet> &bullets);
+		bool isAlive();
 };
 

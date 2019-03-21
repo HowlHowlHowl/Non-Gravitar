@@ -14,8 +14,9 @@ ship::ship()
 	shape.setSize(sf::Vector2f(30, 30));
 	shape.setOrigin(shape.getSize() / 2.0f);
 	shape.setFillColor(Color::White);
-	life = 4;
+	life = 3;
 	init();
+	
 }
 void ship::init(){
 	//Respawn
@@ -25,10 +26,8 @@ void ship::init(){
 	this->xpos = VIEWPORT_WIDTH / 2.0f;
 	this->ypos = VIEWPORT_HEIGHT / 10.0f;
 	*/
-
 	this->xpos = 50.f;
 	this->ypos = 50.f;
-	life--;
 }
 //Funzioni di Movimento
 void ship::up_m(float dt) {
@@ -102,7 +101,9 @@ void ship::draw(RenderWindow &finestra) {
 }
 void ship::Destroy() {
 
-	//Astronave distrutta, ripristino le impotazioni e aggiorno la vita
+	//Astronave distrutta, respawn e vita in meno
+	life--;
+	std::cout << "Vite rimaste: "<<life<< std::endl;
 	init();
 }
 Vector2f ship::getPosition() {
@@ -114,3 +115,8 @@ bool ship::canMoving() {
 	return false;
 }
 RectangleShape ship::getShape() { return shape; }
+bool ship::isAlive() {
+	if (life <= 0)
+		return false;
+	return true;
+}

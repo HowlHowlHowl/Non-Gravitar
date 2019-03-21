@@ -18,5 +18,6 @@ public:
 	void draw(RenderWindow &finestra);
 	void spawn();
 	CircleShape getShape();
+
 };
 

@@ -23,6 +23,7 @@ class ship
 		void up_m(float dt);
 		void down_m(float dt);
 
+		Texture lifeTexture;
 	public:	
 		ship();		
 		void update(float dt,std::vector<Bullet> &bullets, bool isInSystem);

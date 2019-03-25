@@ -3,6 +3,7 @@
 #include "bullet.h"
 #include <iostream>
 #include <sstream>
+#include "Global.h"
 
 using namespace sf;
 int const ALT = 600;
@@ -15,6 +16,11 @@ ship::ship()
 	shape.setOrigin(shape.getSize() / 2.0f);
 	shape.setFillColor(Color::White);
 	life = 3;
+
+	if(!lifeTexture.loadFromFile("..\\Resources\\vita.png"))
+		std::cout << "Error";
+
+	lifeTexture.setSmooth(true);
 	init();
 	
 }
@@ -97,6 +103,21 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem){
 }
 void ship::draw(RenderWindow &finestra) {
 	finestra.draw(shape);
+	float temp_x = 10.f;
+	for (int i = 0; i < life; i++) {
+		Sprite temp_sprite;
+		temp_sprite.setTexture(lifeTexture);
+
+		//Posizione temporanea dei cuori
+		temp_sprite.setPosition(temp_x,550);
+	
+
+		//Distanza temporanea tra un cuore e l'altro
+		temp_x += 52;
+
+		//Disegno del singolo cuore
+		finestra.draw(temp_sprite);
+	}
 }
 void ship::Destroy() {
 

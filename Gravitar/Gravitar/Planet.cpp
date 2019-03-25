@@ -11,7 +11,7 @@ Planet::Planet()
 	icon.setFillColor(sf::Color(rand() % 255, rand() % 255, rand() % 255));
 	icon.setPosition((float)(rand() % VIEWPORT_WIDTH), (float)(rand() % VIEWPORT_HEIGHT));
 
-	nbunker = 10;
+	nbunker = 3;
 	circumnference = 0;
 
 	terrainColor = Color::Green;

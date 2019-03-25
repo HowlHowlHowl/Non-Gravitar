@@ -186,7 +186,7 @@ void Engine::gameOver() {
 	//GameOverText
 	sf::Font font;
 	sf::Text text;
-	font.loadFromFile("slkscr.ttf");
+	font.loadFromFile("gamefont.ttf");
 
 	//Selezione del font
 	text.setFont(font);
@@ -196,6 +196,7 @@ void Engine::gameOver() {
 	//set the character size
 	text.setCharacterSize(24);
 	text.setFillColor(sf::Color::White);
+	text.setPosition(VIEWPORT_WIDTH/4,text.getPosition().y);
 
 	finestra.draw(text);
 	finestra.display();

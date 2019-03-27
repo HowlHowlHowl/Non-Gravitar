@@ -19,6 +19,7 @@ protected:
 	//GameObject
 	ship ship;
 	std::vector<Bullet> shipBullets;
+	std::vector<Bullet> bunkerBullets;
 	std::vector<Planet> mapPlanets;
 	bool MenuCamper;
 	int NPianeta;

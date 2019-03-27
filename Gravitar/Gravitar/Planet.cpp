@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "utils.h"
+#include "Bunker2.h"
 
 Planet::Planet()
 {
@@ -19,17 +20,31 @@ Planet::Planet()
 
 	generateBunkers();
 }
-void Planet::update(float dt,ship &ship, std::vector<Bullet>& shipBullets){
+void Planet::update(float dt,ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet> &bunkerBullets){
 	//Aggiornamento gameobject
-	collisions(ship, shipBullets);
+	for (int i = 0; i < bunkers.size(); i++) {
+		bunkers[i]->update(dt, bunkerBullets);
+	}
+	collisions(ship, shipBullets, bunkerBullets);
+
 }
-void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets) {
+void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet>& bunkerBullets) {
 	//astronvave collision
 	if (intersectsTerrain(ship.getShape())) {
 		std::cout << "COllision!" << std::endl;
 		ship.Destroy();
 	}
+	//Proiettili bunker collisions con ship
+	for (int i = 0; i < bunkerBullets.size(); i++) {
+		float radius = ((ship.getShape().getSize().x)/2) + bunkerBullets[i].getShape().getRadius();
 
+		if (distance(ship.getPosition(), bunkerBullets[i].getShape().getPosition()) < radius) 
+		{
+			ship.Destroy();
+			bunkerBullets.erase(bunkerBullets.begin() + i);
+			i--;
+		}
+	}
 	//Proiettili collision
 	for (int i = 0; i < shipBullets.size(); i++) {
 
@@ -125,6 +140,11 @@ void Planet::generateBunkers()
 		float rotation;
 		Vector2f pos = getRandomPointOnTerrain(rotation);
 		bunkers.push_back(new Bunker(pos, rotation));
+	}
+	for (int i = 0; i < nbunker; i++) {
+		float rotation;
+		Vector2f pos = getRandomPointOnTerrain(rotation);
+		bunkers.push_back(new Bunker2(pos, rotation));
 	}
 }
 

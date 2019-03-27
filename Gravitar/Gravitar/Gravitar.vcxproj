@@ -127,6 +127,7 @@
   <ItemGroup>
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="Bunker.cpp" />
+    <ClCompile Include="Bunker2.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Planet.cpp" />
@@ -136,6 +137,7 @@
   <ItemGroup>
     <ClInclude Include="bullet.h" />
     <ClInclude Include="Bunker.h" />
+    <ClInclude Include="Bunker2.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Planet.h" />

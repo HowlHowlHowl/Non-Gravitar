@@ -16,9 +16,9 @@ protected:
 
 public:
 	Planet();
-	void update(float dt,ship &ship, std::vector<Bullet>& shipBullets);
+	void update(float dt,ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet> &bunkerBullets);
 	void draw(RenderWindow &window);
-	void collisions(ship &ship, std::vector<Bullet>& shipBullets);
+	void collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet> &bunkerBullets);
 	bool destroyed();
 	void created();
 	bool intersectsTerrain(RectangleShape rect);

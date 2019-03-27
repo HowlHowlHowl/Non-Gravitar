@@ -12,7 +12,7 @@ protected:
 	CircleShape shape;
 	direction dir;
 public:
-	Bullet(float spawn_xpos, float spawn_ypos, direction dir_I);
+	Bullet(float spawn_xpos, float spawn_ypos, direction dir_I, float radius);
 	void update(float dt);
 	void draw(RenderWindow &finestra);
 	void spawn();

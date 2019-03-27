@@ -97,9 +97,13 @@ void Engine::update(float dt) {
 
 		//Pulizia proiettili della nave
 		shipBullets.clear();
+		bunkerBullets.clear();
 	}
 	else {
 		//Update del pianeta in cui ci si trova
+
+		//Update pianeta
+		mapPlanets[NPianeta].update(dt, ship, shipBullets, bunkerBullets);
 
 		//update dei proiettili
 		for (int i = 0; i < shipBullets.size(); i++)
@@ -107,9 +111,12 @@ void Engine::update(float dt) {
 			shipBullets[i].update(dt);
 		}
 
-		//Update pianeta
-		mapPlanets[NPianeta].update(dt, ship, shipBullets);
+		for (int i = 0; i < bunkerBullets.size(); i++)
+		{
+			bunkerBullets[i].update(dt);
+		}
 
+		
 
 		//Check vite astronave
 		if (!ship.isAlive()) {
@@ -156,6 +163,10 @@ void Engine::draw() {
 		for (int i = 0; i < shipBullets.size(); i++)
 		{
 			shipBullets[i].draw(finestra);
+		}
+		for (int i = 0; i < bunkerBullets.size(); i++)
+		{
+			bunkerBullets[i].draw(finestra);
 		}
 
 	}

@@ -61,7 +61,7 @@ void ship::left_m(float dt) {
 //Sparo e raccolta
 void ship::shoot(std::vector<Bullet> &bullets) {
 	std::cout << "BIm"<< std::endl;
-	bullets.emplace_back(xpos, ypos, dir);
+	bullets.emplace_back(xpos, ypos, dir, 10.f);
 }
 //Funzioni utili
 void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem){

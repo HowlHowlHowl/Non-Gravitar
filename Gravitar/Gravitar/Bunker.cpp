@@ -1,4 +1,6 @@
 #include "Bunker.h"
+#include "bullet.h"
+#include "utils.h"
 
 
 Bunker::Bunker(Vector2f pos, float rotation)
@@ -8,6 +10,8 @@ Bunker::Bunker(Vector2f pos, float rotation)
 	shape.setSize(Vector2f(bunkerWidth, bunkerHeight));
 	shape.setOrigin(bunkerWidth / 2.0f, bunkerHeight);
 	shape.setFillColor(Color::Blue);
+
+	shootTime = randf01() * shootCooldown;
 
 }
 
@@ -30,5 +34,18 @@ void Bunker::takeDamage()
 {
 	life--;
 }
+void Bunker::update(float dt, std::vector<Bullet> &bullets) {
+	shootTime += dt;
+	if (shootTime > shootCooldown) {
+		shoot(bullets);
+		shootTime = 0;
+	}
 
+}
+void Bunker::shoot(std::vector<Bullet> &bullets)
+{
+	Vector2f pos = shape.getPosition();
+	bullets.emplace_back(pos.x + 20, pos.y, UP, BUNKER_BULLET_RADIUS);
+	bullets.emplace_back(pos.x - 20, pos.y, UP, BUNKER_BULLET_RADIUS);
+}
 

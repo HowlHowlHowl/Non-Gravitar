@@ -3,15 +3,16 @@
 
 using namespace sf;
 
-Bullet::Bullet(float spawn_xpos, float spawn_ypos,direction dir_I)
+Bullet::Bullet(float spawn_xpos, float spawn_ypos,direction dir_I, float radius)
 {
 	xpos = spawn_xpos,
 	ypos = spawn_ypos;
 	dir = dir_I;
-	shape.setRadius(10.f);
-	shape.setOrigin(10.f, 10.f);
+	shape.setRadius(radius);
+	shape.setOrigin(radius, radius);
 	shape.setFillColor(Color::Green);
 }
+
 void Bullet::update(float dt){
 	if (dir == LEFT)
 	{

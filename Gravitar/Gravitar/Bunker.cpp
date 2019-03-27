@@ -9,10 +9,10 @@ Bunker::Bunker(Vector2f pos, float rotation)
 	shape.setRotation(rotation);
 	shape.setSize(Vector2f(bunkerWidth, bunkerHeight));
 	shape.setOrigin(bunkerWidth / 2.0f, bunkerHeight);
-	shape.setFillColor(Color::Blue);
-
 	shootTime = randf01() * shootCooldown;
 
+	bunkerTexture.loadFromFile("bunker.png");
+	shape.setTexture(&bunkerTexture);
 }
 
 void Bunker::draw(RenderWindow & finestra)

@@ -12,16 +12,23 @@ int const LAR = 800;
 //Costruttore e inizializzazione
 ship::ship()
 {
-	shape.setSize(sf::Vector2f(30, 30));
+	shape.setSize(sf::Vector2f(50, 50));
 	shape.setOrigin(shape.getSize() / 2.0f);
 	shape.setFillColor(Color::White);
 	life = 3;
 	carburante = max_carburante;
 
-	if(!lifeTexture.loadFromFile("vita.png"))
-		std::cout << "Error";
+	if (!lifeTexture.loadFromFile("vita.png"))
+		std::cout << "Error: cannot load vita.png" << std::endl;
+
+	if (!shipTexture.loadFromFile("ship.png"))
+		std::cout << "Error: cannot load ship.png" << std::endl;
 
 	lifeTexture.setSmooth(true);
+	shipTexture.setSmooth(true);
+
+	shape.setTexture(&shipTexture);
+
 	init();
 	
 }
@@ -42,21 +49,31 @@ void ship::up_m(float dt) {
 	ypos -= dt*speed;
 	
 	carburante -= dt * speed;
+
+	shape.setRotation(0.0f);
 }
 void ship::down_m(float dt) {
 	xpos += 0.f;
 	ypos += dt*speed;
 	carburante -= dt * speed;
+
+	shape.setRotation(180.0f);
 }
 void ship::right_m(float dt) {
 	xpos += dt*speed;
 	ypos += 0.f;
 	carburante -= dt * speed;
+
+
+	shape.setRotation(90.0f);
 }
 void ship::left_m(float dt) {
 	xpos -= dt*speed;
 	ypos += 0.f;
 	carburante -= dt * speed;
+
+
+	shape.setRotation(270.0f);
 }
 //Sparo e raccolta
 void ship::shoot(std::vector<Bullet> &bullets) {

@@ -21,10 +21,11 @@ public:
 	void collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet> &bunkerBullets);
 	bool destroyed();
 	void created();
-	bool intersectsTerrain(RectangleShape rect);
+	bool intersectsTerrain(Vector2f pos, float radius);
 	void generateRandomTerrain();
 	void deleteAllBunkers();
 	void generateBunkers();
+
 	Vector2f getRandomPointOnTerrain(float & rotation);
 	CircleShape getIcon();
 	void drawIcon(RenderWindow &window);

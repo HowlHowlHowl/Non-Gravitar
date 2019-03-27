@@ -14,6 +14,8 @@ Engine::Engine()
 	//Gioco in finestra
 	finestra.create(VideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT),"Gravitar Game Engine");
 	finestra.setFramerateLimit(60);
+
+
 	srand((unsigned int)time(0));
 
 	

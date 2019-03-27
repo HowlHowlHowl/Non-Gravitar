@@ -5,6 +5,7 @@
 #include "utils.h"
 #include "Bunker2.h"
 
+
 Planet::Planet()
 {
 	//Impostazioni icona del pianeta
@@ -30,7 +31,7 @@ void Planet::update(float dt,ship &ship, std::vector<Bullet>& shipBullets, std::
 }
 void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet>& bunkerBullets) {
 	//astronvave collision
-	if (intersectsTerrain(ship.getShape())) {
+	if (intersectsTerrain(ship.getPosition(), ship.getShape().getSize().x / 2.f)) {
 		std::cout << "COllision!" << std::endl;
 		ship.Destroy();
 	}
@@ -67,7 +68,14 @@ void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vecto
 			}
 		}
 	}
-
+	for (int i = 0; i < shipBullets.size(); i++) {
+		CircleShape bullet = shipBullets[i].getShape();
+		if (intersectsTerrain(bullet.getPosition(), bullet.getRadius())) {
+			shipBullets.erase(shipBullets.begin() + i);
+			i--;
+		}
+	}
+	
 }
 void Planet::draw(RenderWindow &window){
 	window.draw(terrainVertices.data(), terrainVertices.size(), sf::LinesStrip);
@@ -86,9 +94,8 @@ bool Planet::destroyed(){
 }
 void Planet::created(){
 }
-bool Planet::intersectsTerrain(RectangleShape rect)
+bool Planet::intersectsTerrain(Vector2f pos, float radius)
 {
-	Vector2f pos = rect.getPosition();
 	for (int i = 0; i < terrainVertices.size() - 1; i++)
 	{
 		Vector2f a = terrainVertices[i].position;
@@ -101,7 +108,7 @@ bool Planet::intersectsTerrain(RectangleShape rect)
 			float q = b.y - m * b.x;
 
 			float distance = abs(pos.y - (m * pos.x + q)) / sqrt(1 + m * m);
-			if(distance < rect.getSize().x / 2.0f)
+			if(distance < radius)
 			{
 				return true;
 			}
@@ -147,8 +154,6 @@ void Planet::generateBunkers()
 		bunkers.push_back(new Bunker2(pos, rotation));
 	}
 }
-
-
 Vector2f Planet::getRandomPointOnTerrain(float& rotation)
 {
 	int vertIndex = rand() % (terrainVertices.size() - 1);

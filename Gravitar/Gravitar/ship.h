@@ -8,7 +8,8 @@ using namespace sf;
 class ship
 {
 	protected:
-		float carburante = 10000.f;
+		const float max_carburante = 10000.f;
+		float carburante;
 		float speed = 600.f;
 		float xpos;
 		float ypos;

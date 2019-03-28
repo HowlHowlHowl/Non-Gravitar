@@ -16,7 +16,7 @@ ship::ship()
 	shape.setOrigin(shape.getSize() / 2.0f);
 	shape.setFillColor(Color::White);
 	life = 3;
-	carburante = max_carburante;
+	
 
 	if (!lifeTexture.loadFromFile("vita.png"))
 		std::cout << "Error: cannot load vita.png" << std::endl;
@@ -35,6 +35,7 @@ ship::ship()
 void ship::init(){
 	//Respawn
 	std::cout << "SPAWN" << std::endl;
+	carburante = max_carburante;
 
 	/*
 	this->xpos = VIEWPORT_WIDTH / 2.0f;
@@ -138,7 +139,12 @@ void ship::draw(RenderWindow &finestra) {
 	}
 	
 	RectangleShape fuelRect;
-	fuelRect.setFillColor(Color::Green);
+
+	if(carburante < 1000.f)
+		fuelRect.setFillColor(Color::Red);
+	else
+		fuelRect.setFillColor(Color::Green);
+
 	fuelRect.setSize(Vector2f(100 * carburante / max_carburante, 20));
 	fuelRect.setPosition(VIEWPORT_WIDTH - fuelRect.getSize().x - 5, 5);
 	finestra.draw(fuelRect);

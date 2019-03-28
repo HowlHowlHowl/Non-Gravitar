@@ -11,11 +11,18 @@ Planet::Planet()
 	//Impostazioni icona del pianeta
 	icon.setRadius(20.f);
 	icon.setFillColor(sf::Color(rand() % 255, rand() % 255, rand() % 255));
-	icon.setPosition((float)(rand() % VIEWPORT_WIDTH), (float)(rand() % VIEWPORT_HEIGHT));
+	icon.setPosition((float)(rand() % VIEWPORT_WIDTH-2*(icon.getRadius())), (float)(rand() % VIEWPORT_HEIGHT - 2 * (icon.getRadius())));
 
+	//Nome random del pianeta (randomn 10 lettere)
+	for (unsigned int i = 0; i < rand()%10+rand() % 10; ++i)
+	{
+		nomePianeta += genRandom();
+	}
+
+	//Impostazioni del pianeta
 	nbunker = 3;
 	circumnference = 0;
-
+	//Impostazioni del terreno e spawn degli oggetti
 	terrainColor = Color::Green;
 	generateRandomTerrain();
 
@@ -85,7 +92,21 @@ void Planet::draw(RenderWindow &window){
 	}
 }
 void Planet::drawIcon(RenderWindow &window){
+	sf::Font font;
+	sf::Text text;
+	font.loadFromFile("gamefont.ttf");
+	//Selezione del font
+	text.setFont(font);
+	//set the string to display
+	text.setString(nomePianeta);
+	//set the character size
+	text.setCharacterSize(16);
+	text.setFillColor(sf::Color::White);
+	text.setPosition(icon.getPosition().x-icon.getRadius(),icon.getPosition().y+2*(icon.getRadius()));
+
+	//Disegno icona e nome
 	window.draw(icon);
+	window.draw(text);
 }
 bool Planet::destroyed(){
 	if (bunkers.size() == 0)
@@ -173,3 +194,4 @@ Vector2f Planet::getRandomPointOnTerrain(float& rotation)
 CircleShape Planet::getIcon() {
 	return icon;
 }
+

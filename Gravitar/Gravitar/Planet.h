@@ -13,6 +13,7 @@ protected:
 	Color terrainColor;
 	CircleShape icon;
 	std::vector<Bunker*> bunkers;
+	String nomePianeta;
 
 public:
 	Planet();

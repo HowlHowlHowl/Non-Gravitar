@@ -25,10 +25,9 @@ Engine::Engine()
 
 	//Generazione mappa dei pianeti
 	int i = 0;
-	while(i <= NTotalePianeti) {
-		Planet *p = new Planet();
-		mapPlanets.push_back(*p);
-			i++;
+	while (i <= NTotalePianeti) {
+		generatePlanets(i);
+		i++;
 	}
 }
 
@@ -191,7 +190,54 @@ void Engine::planetSelection(){
 		i++;
 	}
 }
+void Engine::generatePlanets(int i) {
+	
+	//Generazione del pianeta
+	Planet *p = new Planet();
 
+	//Primo pianeta
+	if (i == 0) {
+		mapPlanets.push_back(*p);
+		return;
+	}
+
+	//Piu' pianeti, check dei pianeti
+	int k = 0;
+	while (k < i) {
+		
+		//Se l'icona del pianeta *p interseca il pianeta mapPlanets[k]
+		if (p->getIcon().getGlobalBounds().intersects(mapPlanets[k].getIcon().getGlobalBounds())) {
+			cout << "INTERSECO UN PIANETA" << endl;
+			Planet tmp;
+			*p = tmp;
+
+			k = 0;
+		}
+		//Se l'icona e' nello spawn dell'astronave
+		else if (p->getIcon().getGlobalBounds().intersects(ship.getShape().getGlobalBounds())) {
+			cout << "SPAWN ERRATO" << endl;
+			Planet tmp;
+			*p = tmp;
+
+			k = 0;
+		}
+		//Se l'icona e' fuori dallo schermo
+		else if (p->getIcon().getPosition().x + (p->getIcon().getRadius()) > VIEWPORT_WIDTH || p->getIcon().getPosition().y +(p->getIcon().getRadius()) > VIEWPORT_HEIGHT || p->getIcon().getPosition().x < 0 || p->getIcon().getPosition().y < 0) {
+			cout << "SPAWN FUORI DAI LIMITI" << endl;
+			Planet tmp;
+			*p = tmp;
+
+			k = 0;
+		}
+		else
+			k++;
+	}
+
+	mapPlanets.push_back(*p);
+		
+	//DEBUG
+	cout << "Pianeta spawnato" << endl;
+}
 void Engine::gameOver() {
 
 	finestra.clear(Color::Black);

@@ -28,7 +28,7 @@ protected:
 	void update(float dt);
 	void draw();
 	void planetSelection();
-
+	void generatePlanets(int i);
 	void gameOver();
 
 public:

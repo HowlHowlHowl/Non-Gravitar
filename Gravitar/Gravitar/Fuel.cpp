@@ -23,9 +23,12 @@ void Fuel::update(float dt, ship &ship) {
 
 	if ((distance(getPosition(), ship.getPosition()) < ship.getShape().getSize().x / 2.f + shape.getRadius())) {
 		std::cout << "FUELLLLLLLLL!";
-		this->isTook = true;
+		this->took = true;
 		ship.getBonus(getVal());
 	}
+}
+bool Fuel::isTook() {
+	return took;
 }
 Vector2f Fuel::getPosition() {
 	return shape.getPosition();

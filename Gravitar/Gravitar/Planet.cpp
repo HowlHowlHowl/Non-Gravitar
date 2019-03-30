@@ -27,7 +27,7 @@ Planet::Planet()
 	//Impostazioni del terreno e spawn degli oggetti
 	terrainColor = Color::Green;
 	generateRandomTerrain();
-
+	max_bonus = 3;
 	generateBunkers();
 	
 }
@@ -46,13 +46,14 @@ void Planet::update(float dt,ship &ship, std::vector<Bullet>& shipBullets, std::
 	collisions(ship, shipBullets, bunkerBullets);
 	if (fuelBonus != NULL) {
 		fuelBonus->update(dt, ship);
-		/*if (fuelBonus->isTook()) {
+		if (fuelBonus->isTook()) {
 			delete fuelBonus;
 			fuelBonus = NULL;
-		}*/
+		}
 	}
 	bonusCooldown += dt;
-	if (fuelBonus == NULL && bonusCooldown > bonusSpawn) {
+	if (fuelBonus == NULL && bonusCooldown > bonusSpawn && max_bonus>0) {
+		max_bonus--;
 		generateFuel();
 		bonusCooldown = 0.f;
 	}

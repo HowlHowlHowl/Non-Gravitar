@@ -18,8 +18,10 @@ protected:
 	std::vector<Bunker*> bunkers;
 	String nomePianeta;
 	Fuel *fuelBonus = NULL;
-	float bonusSpawn = 1.f;
+	float bonusSpawn = 15.f;
 	float bonusCooldown = 0.f;
+	float max_bonus = 3;
+
 
 public:
 	Planet();
@@ -33,7 +35,6 @@ public:
 	void deleteAllBunkers();
 	void generateBunkers();
 	void generateFuel();
-	bool isTimeToSpawn();
 	Vector2f getRandomPointOnTerrain(float & rotation);
 	CircleShape getIcon();
 	void drawIcon(RenderWindow &window);

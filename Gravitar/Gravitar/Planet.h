@@ -1,8 +1,11 @@
 #pragma once
+#include "Fuel.h"
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "ship.h"
 #include "Bunker.h"
+#include "Fuel.h"
+
 
 class Planet
 {
@@ -14,6 +17,9 @@ protected:
 	CircleShape icon;
 	std::vector<Bunker*> bunkers;
 	String nomePianeta;
+	Fuel *fuelBonus = NULL;
+	float bonusSpawn = 1.f;
+	float bonusCooldown = 0.f;
 
 public:
 	Planet();
@@ -26,9 +32,9 @@ public:
 	void generateRandomTerrain();
 	void deleteAllBunkers();
 	void generateBunkers();
-
+	void generateFuel();
+	bool isTimeToSpawn();
 	Vector2f getRandomPointOnTerrain(float & rotation);
 	CircleShape getIcon();
 	void drawIcon(RenderWindow &window);
 };
-

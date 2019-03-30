@@ -1,9 +1,11 @@
+#pragma	once
 #include "Planet.h"
 #include <SFML\Graphics.hpp>
 #include <iostream>
 #include <vector>
 #include "utils.h"
 #include "Bunker2.h"
+
 
 
 Planet::Planet()
@@ -14,7 +16,7 @@ Planet::Planet()
 	icon.setPosition((float)(rand() % VIEWPORT_WIDTH-2*(icon.getRadius())), (float)(rand() % VIEWPORT_HEIGHT - 2 * (icon.getRadius())));
 
 	//Nome random del pianeta (randomn 10 lettere)
-	for (unsigned int i = 0; i < rand()%10+rand() % 10; ++i)
+	for (unsigned int i = 0; i < (unsigned int) rand()%10+rand() % 10; ++i)
 	{
 		nomePianeta += genRandom();
 	}
@@ -27,6 +29,14 @@ Planet::Planet()
 	generateRandomTerrain();
 
 	generateBunkers();
+	
+}
+void Planet::generateFuel()
+{
+	float nil;
+	Vector2f pos = getRandomPointOnTerrain(nil);
+	fuelBonus = new Fuel(pos);
+
 }
 void Planet::update(float dt,ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet> &bunkerBullets){
 	//Aggiornamento gameobject
@@ -34,7 +44,18 @@ void Planet::update(float dt,ship &ship, std::vector<Bullet>& shipBullets, std::
 		bunkers[i]->update(dt, bunkerBullets);
 	}
 	collisions(ship, shipBullets, bunkerBullets);
-
+	if (fuelBonus != NULL) {
+		fuelBonus->update(dt, ship);
+		/*if (fuelBonus->isTook()) {
+			delete fuelBonus;
+			fuelBonus = NULL;
+		}*/
+	}
+	bonusCooldown += dt;
+	if (fuelBonus == NULL && bonusCooldown > bonusSpawn) {
+		generateFuel();
+		bonusCooldown = 0.f;
+	}
 }
 void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet>& bunkerBullets) {
 	//astronvave collision
@@ -84,13 +105,17 @@ void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vecto
 	}
 	
 }
-void Planet::draw(RenderWindow &window){
+void Planet::draw(RenderWindow &window) {
 	window.draw(terrainVertices.data(), terrainVertices.size(), sf::LinesStrip);
-	
+
 	for (int i = 0; i < bunkers.size(); i++) {
 		bunkers[i]->draw(window);
 	}
+	if (fuelBonus != NULL) {
+		fuelBonus->draw(window);
+	}
 }
+
 void Planet::drawIcon(RenderWindow &window){
 	sf::Font font;
 	sf::Text text;

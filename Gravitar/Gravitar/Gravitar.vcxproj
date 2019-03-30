@@ -129,6 +129,7 @@
     <ClCompile Include="Bunker.cpp" />
     <ClCompile Include="Bunker2.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Fuel.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="ship.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="Bunker.h" />
     <ClInclude Include="Bunker2.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Fuel.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Planet.h" />
     <ClInclude Include="ship.h" />

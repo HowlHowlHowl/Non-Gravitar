@@ -37,5 +37,6 @@ class ship
 		void Destroy();
 		void shoot(std::vector<Bullet> &bullets);
 		bool isAlive();
+		void getBonus(float dt);
 };
 

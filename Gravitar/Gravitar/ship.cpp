@@ -43,6 +43,7 @@ void ship::init(){
 	*/
 	this->xpos = 50.f;
 	this->ypos = 50.f;
+	shape.setPosition(xpos, ypos);
 }
 //Funzioni di Movimento
 void ship::up_m(float dt) {
@@ -170,4 +171,7 @@ bool ship::isAlive() {
 	if (life <= 0)
 		return false;
 	return true;
+}
+void ship::getBonus(float fuelAmount) {
+	carburante += fuelAmount;
 }

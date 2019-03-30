@@ -90,6 +90,7 @@ void Engine::start(){
 void Engine::update(float dt) {	
 
 	//Update astronave
+ 
 	ship.update(dt,shipBullets,MenuCamper);
 
 	//Selezione pianeta
@@ -206,7 +207,7 @@ void Engine::generatePlanets(int i) {
 	while (k < i) {
 		
 		//Se l'icona del pianeta *p interseca il pianeta mapPlanets[k]
-		if (p->getIcon().getGlobalBounds().intersects(mapPlanets[k].getIcon().getGlobalBounds())) {
+	if (p->getIcon().getGlobalBounds().intersects(mapPlanets[k].getIcon().getGlobalBounds())) {
 			cout << "INTERSECO UN PIANETA" << endl;
 			Planet tmp;
 			*p = tmp;

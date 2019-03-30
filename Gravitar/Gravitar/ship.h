@@ -10,7 +10,7 @@ class ship
 	protected:
 		const float max_carburante = 10000.f;
 		float carburante;
-		float speed = 400.f;
+		float speed = 350.f;
 		float xpos;
 		float ypos;
 		RectangleShape shape;

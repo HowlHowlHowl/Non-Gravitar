@@ -254,10 +254,11 @@ void Engine::gameOver() {
 	//set the string to display
 	text.setString("GAME OVER");
 	//set the character size
-	text.setCharacterSize(24);
+	text.setCharacterSize(100);
 	text.setFillColor(sf::Color::White);
-	text.setPosition(VIEWPORT_WIDTH/4,text.getPosition().y);
-
+	text.setPosition(VIEWPORT_WIDTH / 2.0f, VIEWPORT_HEIGHT / 2.5f);
+	text.setOrigin(text.getLocalBounds().width/2.0f,
+					text.getLocalBounds().height / 2.0f), 
 	finestra.draw(text);
 	finestra.display();
 

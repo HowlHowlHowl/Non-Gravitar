@@ -13,7 +13,7 @@ int const LAR = 800;
 ship::ship()
 {
 	shape.setSize(sf::Vector2f(50, 50));
-	shape.setOrigin(shape.getSize() / 2.0f);
+	shape.setOrigin(shape.getSize() / 2.0f);		
 	shape.setFillColor(Color::White);
 	life = 3;
 	
@@ -58,7 +58,6 @@ void ship::down_m(float dt) {
 	xpos += 0.f;
 	ypos += dt*speed;
 	carburante -= dt * speed;
-
 	shape.setRotation(180.0f);
 }
 void ship::right_m(float dt) {

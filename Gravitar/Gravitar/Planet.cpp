@@ -51,7 +51,10 @@ void Planet::update(float dt,ship &ship, std::vector<Bullet>& shipBullets, std::
 			fuelBonus = NULL;
 		}
 	}
+	//Non va in Cooldown se il bonus non è stato raccolto
+	if(fuelBonus==NULL)
 	bonusCooldown += dt;
+
 	if (fuelBonus == NULL && bonusCooldown > bonusSpawn && max_bonus>0) {
 		max_bonus--;
 		generateFuel();
@@ -71,9 +74,10 @@ void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vecto
 		if (distance(ship.getPosition(), bunkerBullets[i].getShape().getPosition()) < radius) 
 		{
 			ship.Destroy();
-			bunkerBullets.erase(bunkerBullets.begin() + i);
-			i--;
+			bunkerBullets.clear();
+			
 		}
+
 	}
 	//Proiettili collision
 	for (int i = 0; i < shipBullets.size(); i++) {

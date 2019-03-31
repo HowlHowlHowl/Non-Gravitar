@@ -18,12 +18,12 @@ class ship
 		float shootCooldown = 0.5f;
 		float shootTimer = 0.f;
 		direction dir;
-
+		ConvexShape ray;
 		void left_m(float dt);
 		void right_m(float dt);
 		void up_m(float dt);
 		void down_m(float dt);
-
+		Texture rayTexture;
 		Texture lifeTexture;
 		Texture shipTexture;
 	public:	

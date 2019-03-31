@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include "Global.h"
+#include <vector>
 
 using namespace sf;
 int const ALT = 600;
@@ -16,7 +17,9 @@ ship::ship()
 	shape.setOrigin(shape.getSize() / 2.0f);		
 	shape.setFillColor(Color::White);
 	life = 3;
-	
+
+	if (!rayTexture.loadFromFile("ray.png"))
+		std::cout << "Error: cannot load ray.png" << std::endl;
 
 	if (!lifeTexture.loadFromFile("vita.png"))
 		std::cout << "Error: cannot load vita.png" << std::endl;
@@ -26,6 +29,7 @@ ship::ship()
 
 	lifeTexture.setSmooth(true);
 	shipTexture.setSmooth(true);
+	rayTexture.setSmooth(true);
 
 	shape.setTexture(&shipTexture);
 
@@ -105,6 +109,17 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem){
 			down_m(dt);
 			dir = DOWN;
 		}
+
+		ray.setPointCount(3);
+		Vector2f pos1(shape.getPosition().x - 50, getPosition().y + 75);
+		Vector2f pos2(shape.getPosition());
+		Vector2f pos3(shape.getPosition().x + 50, getPosition().y + 75);
+		ray.setPoint(0, pos1);
+		ray.setPoint(1, pos2);
+		ray.setPoint(2, pos3);
+		ray.setFillColor(Color::White);
+		ray.setTexture(&rayTexture);
+		
 	}
 	
 	//Spara se non e' nel sistema
@@ -121,6 +136,11 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem){
 
 }
 void ship::draw(RenderWindow &finestra) {
+
+	if (Keyboard::isKeyPressed(Keyboard::F) && dir==DOWN) {
+
+		finestra.draw(ray);
+	}
 	finestra.draw(shape);
 	float temp_x = 10.f;
 	for (int i = 0; i < life; i++) {
@@ -140,7 +160,7 @@ void ship::draw(RenderWindow &finestra) {
 	
 	RectangleShape fuelRect;
 
-	if(carburante < 1000.f)
+	if(carburante < 2500.f)
 		fuelRect.setFillColor(Color::Red);
 	else
 		fuelRect.setFillColor(Color::Green);
@@ -148,6 +168,7 @@ void ship::draw(RenderWindow &finestra) {
 	fuelRect.setSize(Vector2f(100 * carburante / max_carburante, 20));
 	fuelRect.setPosition(VIEWPORT_WIDTH - fuelRect.getSize().x - 5, 5);
 	finestra.draw(fuelRect);
+
 
 }
 void ship::Destroy() {

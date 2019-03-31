@@ -24,6 +24,7 @@ protected:
 	bool MenuCamper;
 	int NPianeta;
 
+
 	// Funzioni interne
 	void update(float dt);
 	void draw();

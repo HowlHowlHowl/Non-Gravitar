@@ -1,3 +1,13 @@
+	
+	TODO:
+	_Debug spawn pianeti (inscritti in sezioni di cerchio)
+	_Movimento cam?
+	_Raggio traente
+	_Restart
+	_fixare i bordi _  Ship in su = tab
+
+	_______________________________________________________________________________________________________________
+
 	COMMENTO GIGANTE FRUTTO DI BOTTA DELLE 12.47 dopo 3 ore di mughetti:
 	magari l'engine lo mettiamo come variabile globale, cosi tutti possono chiamare i metodi 
 	Engine:

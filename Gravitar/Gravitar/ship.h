@@ -40,5 +40,6 @@ class ship
 		bool isAlive();
 		void getBonus(float dt);
 		Vector2f getPointRay(int x);
+		void setPosition(float x, float y);
 };
 

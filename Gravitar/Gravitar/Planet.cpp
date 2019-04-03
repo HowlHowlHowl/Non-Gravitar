@@ -60,6 +60,7 @@ void Planet::update(float dt,ship &ship, std::vector<Bullet>& shipBullets, std::
 		generateFuel();
 		bonusCooldown = 0.f;
 	}
+	
 }
 void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet>& bunkerBullets) {
 	//astronvave collision
@@ -132,7 +133,8 @@ void Planet::drawIcon(RenderWindow &window){
 	//set the character size
 	text.setCharacterSize(16);
 	text.setFillColor(sf::Color::White);
-	text.setPosition(icon.getPosition().x-icon.getRadius(),icon.getPosition().y+2*(icon.getRadius()));
+	text.setOrigin(text.getLocalBounds().width / 2.f, text.getLocalBounds().height / 2.f);
+	text.setPosition(icon.getPosition().x+icon.getRadius(),icon.getPosition().y+2*(icon.getRadius()));
 
 	//Disegno icona e nome
 	window.draw(icon);

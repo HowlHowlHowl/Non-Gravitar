@@ -1,11 +1,13 @@
 	
 	TODO:
 	_Debug spawn pianeti (inscritti in sezioni di cerchio)
-	_Movimento cam?
+	_Movimento cam? [V]
 	_Raggio traente [V]
-	_Restart
-	_fixare i bordi _  Ship in su = tab
+	_Restart [V/2]
+	_fixare i bordi 
+	_Ship in su = tab [V]
 	_fixare camera 
+	_sometimes void turns to be a planet... weirdo shit
 	_______________________________________________________________________________________________________________
 
 	COMMENTO GIGANTE FRUTTO DI BOTTA DELLE 12.47 dopo 3 ore di mughetti:

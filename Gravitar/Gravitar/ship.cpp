@@ -202,3 +202,7 @@ void ship::getBonus(float fuelAmount) {
 Vector2f ship::getPointRay(int x) {
 	return ray.getPoint(x);
 }
+void ship::setPosition(float x, float y) {
+	xpos = x;
+	ypos = y;
+}

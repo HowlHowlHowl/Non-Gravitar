@@ -93,7 +93,10 @@ void Engine::update(float dt) {
 	//Update astronave
  
 	ship.update(dt,shipBullets,MenuCamper);
-
+	if (ship.getPosition().y < -100 && !MenuCamper) {
+		MenuCamper = true;
+		ship.setPosition(0, 0);
+	}
 	//Selezione pianeta
 	if (MenuCamper) {
 		planetSelection();
@@ -103,7 +106,7 @@ void Engine::update(float dt) {
 		bunkerBullets.clear();
 	}
 	else {
-		//Update del pianeta in cui ci si trova
+		
 
 		//Update pianeta
 		mapPlanets[NPianeta].update(dt, ship, shipBullets, bunkerBullets);
@@ -138,7 +141,7 @@ void Engine::update(float dt) {
 			MenuCamper = true;
 
 			//Respawn dell'astronave
-			ship.init();
+			ship.setPosition(0,0);
 		}
 	}
 }
@@ -198,7 +201,7 @@ void Engine::planetSelection(){
 			flag = true;
 
 			//Respawn momentaneo quando si entra in un pianeta
-			ship.init();
+			ship.setPosition(0, 0);
 		}
 		i++;
 	}

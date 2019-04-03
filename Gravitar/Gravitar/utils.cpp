@@ -26,3 +26,8 @@ float radToDeg(float rad) {
 float distance(Vector2f a, Vector2f b) {
 	return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
 }
+float area(Vector2f a, Vector2f b, Vector2f c) {
+	
+	
+	return abs( (a.x*(b.y - c.y) + b.x*(c.y - a.y) + c.x*(a.y - b.y))/2);
+}

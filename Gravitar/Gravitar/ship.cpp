@@ -13,7 +13,7 @@ int const LAR = 800;
 //Costruttore e inizializzazione
 ship::ship()
 {
-	shape.setSize(sf::Vector2f(50, 50));
+	shape.setSize(sf::Vector2f(30, 40));
 	shape.setOrigin(shape.getSize() / 2.0f);		
 	shape.setFillColor(Color::White);
 	life = 3;
@@ -83,7 +83,7 @@ void ship::left_m(float dt) {
 //Sparo e raccolta
 void ship::shoot(std::vector<Bullet> &bullets) {
 	std::cout << "BIm"<< std::endl;
-	bullets.emplace_back(xpos, ypos, dir, 10.f);
+	bullets.emplace_back(xpos, ypos, dir, 5.f);
 }
 //Funzioni utili
 void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem){
@@ -135,21 +135,17 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem){
 	shape.setPosition(xpos, ypos);
 
 }
-void ship::draw(RenderWindow &finestra) {
 
-	if (Keyboard::isKeyPressed(Keyboard::F) && dir==DOWN) {
-
-		finestra.draw(ray);
-	}
-	finestra.draw(shape);
+void ship::drawHUD(RenderWindow& finestra) {
 	float temp_x = 10.f;
+
 	for (int i = 0; i < life; i++) {
 		Sprite temp_sprite;
 		temp_sprite.setTexture(lifeTexture);
 
 		//Posizione temporanea dei cuori
-		temp_sprite.setPosition(temp_x,550);
-	
+		temp_sprite.setPosition(temp_x, VIEWPORT_HEIGHT - 50);
+
 
 		//Distanza temporanea tra un cuore e l'altro
 		temp_x += 52;
@@ -157,10 +153,10 @@ void ship::draw(RenderWindow &finestra) {
 		//Disegno del singolo cuore
 		finestra.draw(temp_sprite);
 	}
-	
+
 	RectangleShape fuelRect;
 
-	if(carburante < 2500.f)
+	if (carburante < 2500.f)
 		fuelRect.setFillColor(Color::Red);
 	else
 		fuelRect.setFillColor(Color::Green);
@@ -168,7 +164,15 @@ void ship::draw(RenderWindow &finestra) {
 	fuelRect.setSize(Vector2f(100 * carburante / max_carburante, 20));
 	fuelRect.setPosition(VIEWPORT_WIDTH - fuelRect.getSize().x - 5, 5);
 	finestra.draw(fuelRect);
+}
 
+void ship::draw(RenderWindow &finestra) {
+
+	if (Keyboard::isKeyPressed(Keyboard::F) && dir==DOWN) {
+
+		finestra.draw(ray);
+	}
+	finestra.draw(shape);
 
 }
 void ship::Destroy() {
@@ -194,4 +198,7 @@ bool ship::isAlive() {
 }
 void ship::getBonus(float fuelAmount) {
 	carburante += fuelAmount;
+}
+Vector2f ship::getPointRay(int x) {
+	return ray.getPoint(x);
 }

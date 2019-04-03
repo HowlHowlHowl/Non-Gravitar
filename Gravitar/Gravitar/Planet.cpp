@@ -44,8 +44,8 @@ void Planet::update(float dt,ship &ship, std::vector<Bullet>& shipBullets, std::
 		bunkers[i]->update(dt, bunkerBullets);
 	}
 	collisions(ship, shipBullets, bunkerBullets);
-	if (fuelBonus != NULL) {
-		fuelBonus->update(dt, ship);
+	if (fuelBonus != NULL && isInsideTriangle(ship) && Keyboard::isKeyPressed(Keyboard::F)) {
+		fuelBonus->update(ship);
 		if (fuelBonus->isTook()) {
 			delete fuelBonus;
 			fuelBonus = NULL;
@@ -220,6 +220,15 @@ Vector2f Planet::getRandomPointOnTerrain(float& rotation)
 
 	rotation =  radToDeg(atan(m));
 	return Vector2f(x, y);
+}
+bool Planet::isInsideTriangle(ship& ship) {
+	Vector2f a = ship.getPointRay(0);
+	Vector2f b = ship.getPointRay(1);
+	Vector2f c = ship.getPointRay(2);
+	Vector2f p = fuelBonus->getPosition();
+	float sum = area(p, a, b) + area(p, b, c) + area(p, a, c);
+	//Il fuel è nel raggio?
+	return (area(a, b, c) == sum);
 }
 CircleShape Planet::getIcon() {
 	return icon;

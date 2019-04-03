@@ -25,6 +25,7 @@ protected:
 
 public:
 	Planet();
+	bool isInsideTriangle(ship&ship);
 	void update(float dt,ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet> &bunkerBullets);
 	void draw(RenderWindow &window);
 	void collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet> &bunkerBullets);

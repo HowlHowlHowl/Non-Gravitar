@@ -30,6 +30,7 @@ class ship
 		ship();		
 		void update(float dt,std::vector<Bullet> &bullets, bool isInSystem);
 		void draw(RenderWindow &finestra);
+		void drawHUD(RenderWindow& finestra);
 		void init();
 		Vector2f getPosition();
 		bool canMoving();
@@ -38,5 +39,6 @@ class ship
 		void shoot(std::vector<Bullet> &bullets);
 		bool isAlive();
 		void getBonus(float dt);
+		Vector2f getPointRay(int x);
 };
 

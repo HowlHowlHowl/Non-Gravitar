@@ -152,6 +152,10 @@ void Engine::draw() {
 
 	//Disegno mappa pianeti
 	if (MenuCamper) {
+		finestra.setView(finestra.getDefaultView());
+
+		ship.drawHUD(finestra);
+
 		int i = 0;
 		while (i < NTotalePianeti) {
 			mapPlanets[i].drawIcon(finestra);
@@ -160,6 +164,13 @@ void Engine::draw() {
 	}
 	//Disegno pianeta e dei proiettili
 	else {
+		//Disegno HUD
+		finestra.setView(finestra.getDefaultView());
+		ship.drawHUD(finestra);
+
+		//Disegno il giuoco
+		finestra.setView(View(ship.getPosition(), Vector2f(CAMERA_WIDTH, CAMERA_HEIGHT)));
+
 		mapPlanets[NPianeta].draw(finestra);
 
 		//Disegno proiettili
@@ -247,20 +258,30 @@ void Engine::gameOver() {
 	//GameOverText
 	sf::Font font;
 	sf::Text text;
+	sf::Text retry;
 	font.loadFromFile("gamefont.ttf");
 
 	//Selezione del font
 	text.setFont(font);
+	retry.setFont(font);
 
 	//set the string to display
 	text.setString("GAME OVER");
+	retry.setString("Press 'R' to try again...");
 	//set the character size
 	text.setCharacterSize(100);
+	retry.setCharacterSize(50);
 	text.setFillColor(sf::Color::White);
+	retry.setFillColor(Color::White);
 	text.setPosition(VIEWPORT_WIDTH / 2.0f, VIEWPORT_HEIGHT / 2.5f);
-	text.setOrigin(text.getLocalBounds().width/2.0f,
-					text.getLocalBounds().height / 2.0f), 
+	retry.setPosition(text.getPosition().x, text.getPosition().y + 100);
+	text.setOrigin(text.getLocalBounds().width / 2.0f,
+		text.getLocalBounds().height / 2.0f);
+	retry.setOrigin(retry.getLocalBounds().width / 2.f,
+		retry.getLocalBounds().height / 2.f);
+	finestra.setView(finestra.getDefaultView());
 	finestra.draw(text);
+	finestra.draw(retry);
 	finestra.display();
 
 	sf::Event event;
@@ -278,10 +299,18 @@ void Engine::gameOver() {
 			if (event.key.code == Keyboard::N) {
 				inGame = false;
 			}
+			if (event.key.code == Keyboard::R) {
+				restartGame();
+			}
 		}
 	}
 
 	return;
+}
+void Engine::restartGame(){
+	finestra.close();
+	Engine nuovo;
+	nuovo.start();
 }
 
 

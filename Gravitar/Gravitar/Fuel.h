@@ -12,13 +12,13 @@ class Fuel
 protected:
 	float fuelAmount = 5000.f;
 	CircleShape shape;
-	float radius = 150.f;
+	float radius = 5.f;
 	bool took=false;
 	Texture fuelTexture;
 public:
 	Fuel(Vector2f pos);
 	void draw(RenderWindow &finestra);
-	void update(float dt, ship &ship);
+	void update(ship &ship);
 	Vector2f getPosition();
 	float getVal();
 	bool isTook();

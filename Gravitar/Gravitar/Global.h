@@ -1,7 +1,11 @@
 #pragma once
 
-#define VIEWPORT_WIDTH 800
-#define VIEWPORT_HEIGHT 600
+#define VIEWPORT_WIDTH 1024
+#define VIEWPORT_HEIGHT 720
+
+#define CAMERA_WIDTH (VIEWPORT_WIDTH / 2)
+#define CAMERA_HEIGHT (VIEWPORT_HEIGHT /5 *3)
+
 #define BUNKER_BULLET_RADIUS 3.0f
 
 enum direction

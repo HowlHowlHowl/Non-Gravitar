@@ -26,13 +26,11 @@ void Fuel::draw(RenderWindow&finestra)
 float Fuel::getVal() {
 	return fuelAmount;
 }
-void Fuel::update(float dt, ship &ship) {
+void Fuel::update(ship &ship) {
 
-	if ((distance(getPosition(), ship.getPosition()) < ship.getShape().getSize().x / 2.f + shape.getRadius())) {
 		std::cout << "FUELLLLLLLLL!"<<std::endl;
 		this->took = true;
 		ship.getBonus(getVal());
-	}
 }
 bool Fuel::isTook() {
 	return took;

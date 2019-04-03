@@ -31,7 +31,7 @@ protected:
 	void planetSelection();
 	void generatePlanets(int i);
 	void gameOver();
-
+	void restartGame();
 public:
 	Engine();
 	void start();

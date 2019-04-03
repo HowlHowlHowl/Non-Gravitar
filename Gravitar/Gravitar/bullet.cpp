@@ -10,7 +10,7 @@ Bullet::Bullet(float spawn_xpos, float spawn_ypos,direction dir_I, float radius)
 	dir = dir_I;
 	shape.setRadius(radius);
 	shape.setOrigin(radius, radius);
-	shape.setFillColor(Color::Green);
+	shape.setFillColor(Color::Magenta);
 }
 
 void Bullet::update(float dt){

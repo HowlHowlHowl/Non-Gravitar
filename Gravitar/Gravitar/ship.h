@@ -33,7 +33,6 @@ class ship
 		void drawHUD(RenderWindow& finestra);
 		void init();
 		Vector2f getPosition();
-		bool canMoving();
 		RectangleShape getShape();
 		void Destroy();
 		void shoot(std::vector<Bullet> &bullets);

@@ -15,6 +15,8 @@ protected:
 
 	//Finestra
 	RenderWindow finestra;
+	//Font
+	Font font;
 
 	//GameObject
 	ship ship;

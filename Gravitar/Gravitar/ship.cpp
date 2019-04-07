@@ -1,14 +1,14 @@
 #include "ship.h"
 #include <SFML\Graphics.hpp>
-#include "bullet.h"
 #include <iostream>
 #include <sstream>
-#include "Global.h"
 #include <vector>
 
+#include "bullet.h"
+#include "Global.h"
+#include "utils.h"
+
 using namespace sf;
-int const ALT = 600;
-int const LAR = 800;
 
 //Costruttore e inizializzazione
 ship::ship()
@@ -89,7 +89,7 @@ void ship::shoot(std::vector<Bullet> &bullets) {
 void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem){
 
 	//Movimento ship
-	if (canMoving()) {
+	if (carburante > 0) {
 		if (Keyboard::isKeyPressed(Keyboard::Left))
 		{
 			left_m(dt);
@@ -110,6 +110,15 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem){
 			dir = DOWN;
 		}
 
+		float halfShipSize = shape.getSize().x / 2.f;
+		if (isInSystem) {
+			xpos = clamp(xpos, halfShipSize, VIEWPORT_WIDTH - halfShipSize);
+			ypos = clamp(ypos, halfShipSize, VIEWPORT_HEIGHT - halfShipSize);
+		}
+		else {
+			xpos = clamp(xpos, halfShipSize, PLANET_WIDTH - halfShipSize);
+		}
+		
 		ray.setPointCount(3);
 		Vector2f pos1(shape.getPosition().x - 50, getPosition().y + 75);
 		Vector2f pos2(shape.getPosition());
@@ -119,7 +128,6 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem){
 		ray.setPoint(2, pos3);
 		ray.setFillColor(Color::White);
 		ray.setTexture(&rayTexture);
-		
 	}
 	
 	//Spara se non e' nel sistema
@@ -168,10 +176,10 @@ void ship::drawHUD(RenderWindow& finestra) {
 
 void ship::draw(RenderWindow &finestra) {
 
-	if (Keyboard::isKeyPressed(Keyboard::F) && dir==DOWN) {
-
+	if (Keyboard::isKeyPressed(Keyboard::F)) {
 		finestra.draw(ray);
 	}
+
 	finestra.draw(shape);
 
 }
@@ -185,11 +193,7 @@ void ship::Destroy() {
 Vector2f ship::getPosition() {
 	return Vector2f(xpos,ypos);
 }
-bool ship::canMoving() {
-	if (carburante > 0)
-		return true;
-	return false;
-}
+
 RectangleShape ship::getShape() { return shape; }
 bool ship::isAlive() {
 	if (life <= 0)

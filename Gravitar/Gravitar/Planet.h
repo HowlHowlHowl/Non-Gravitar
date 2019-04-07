@@ -38,5 +38,5 @@ public:
 	void generateFuel();
 	Vector2f getRandomPointOnTerrain(float & rotation);
 	CircleShape getIcon();
-	void drawIcon(RenderWindow &window);
+	void drawIcon(RenderWindow &window, Font& font);
 };

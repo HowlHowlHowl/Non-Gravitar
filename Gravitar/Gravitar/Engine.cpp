@@ -1,6 +1,8 @@
 #include "Engine.h"
 #include <SFML\Graphics.hpp>
 #include <iostream>
+#include "utils.h"
+
 using namespace sf;
 using namespace std;
 
@@ -14,7 +16,7 @@ Engine::Engine()
 	//Gioco in finestra
 	finestra.create(VideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT),"Gravitar Game Engine");
 	finestra.setFramerateLimit(60);
-
+	font.loadFromFile("gamefont.ttf");
 
 
 	srand((unsigned int)time(0));
@@ -161,7 +163,7 @@ void Engine::draw() {
 
 		int i = 0;
 		while (i < NTotalePianeti) {
-			mapPlanets[i].drawIcon(finestra);
+			mapPlanets[i].drawIcon(finestra, font);
 			i++;
 		}
 	}
@@ -172,7 +174,12 @@ void Engine::draw() {
 		ship.drawHUD(finestra);
 
 		//Disegno il giuoco
-		finestra.setView(View(ship.getPosition(), Vector2f(CAMERA_WIDTH, CAMERA_HEIGHT)));
+		float minCameraX = VIEWPORT_WIDTH / 2.f;
+		float maxCameraX = PLANET_WIDTH - VIEWPORT_WIDTH / 2.f;
+		float cameraX = clamp(ship.getPosition().x, minCameraX, maxCameraX);
+		Vector2f cameraCenter(cameraX, VIEWPORT_HEIGHT / 2.f);
+		
+		finestra.setView(View(cameraCenter, Vector2f(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
 
 		mapPlanets[NPianeta].draw(finestra);
 
@@ -194,14 +201,14 @@ void Engine::draw() {
 
 void Engine::planetSelection(){
 	int i = 0; bool flag = false;
-	while (i <= NTotalePianeti && !flag) {
+	while (i < NTotalePianeti && !flag) {
 		if (ship.getShape().getGlobalBounds().intersects(mapPlanets[i].getIcon().getGlobalBounds())) {
 			NPianeta = i;
 			MenuCamper = false;
 			flag = true;
 
 			//Respawn momentaneo quando si entra in un pianeta
-			ship.setPosition(0, 0);
+			ship.setPosition(PLANET_WIDTH / 2, 100);
 		}
 		i++;
 	}
@@ -209,47 +216,44 @@ void Engine::planetSelection(){
 void Engine::generatePlanets(int i) {
 	
 	//Generazione del pianeta
-	Planet *p = new Planet();
+	Planet p;
 
 	//Primo pianeta
 	if (i == 0) {
-		mapPlanets.push_back(*p);
+		mapPlanets.push_back(p);
 		return;
 	}
 
 	//Piu' pianeti, check dei pianeti
 	int k = 0;
 	while (k < i) {
-		
 		//Se l'icona del pianeta *p interseca il pianeta mapPlanets[k]
-	if (p->getIcon().getGlobalBounds().intersects(mapPlanets[k].getIcon().getGlobalBounds())) {
+		if (p.getIcon().getGlobalBounds().intersects(mapPlanets[k].getIcon().getGlobalBounds())) {
 			cout << "INTERSECO UN PIANETA" << endl;
-			Planet tmp;
-			*p = tmp;
+			p = Planet();
 
 			k = 0;
 		}
 		//Se l'icona e' nello spawn dell'astronave
-		else if (p->getIcon().getGlobalBounds().intersects(ship.getShape().getGlobalBounds())) {
+		else if (p.getIcon().getGlobalBounds().intersects(ship.getShape().getGlobalBounds())) {
 			cout << "SPAWN ERRATO" << endl;
-			Planet tmp;
-			*p = tmp;
+			p = Planet();
 
 			k = 0;
 		}
 		//Se l'icona e' fuori dallo schermo
-		else if (p->getIcon().getPosition().x + (p->getIcon().getRadius()) > VIEWPORT_WIDTH || p->getIcon().getPosition().y +(p->getIcon().getRadius()) > VIEWPORT_HEIGHT || p->getIcon().getPosition().x < 0 || p->getIcon().getPosition().y < 0) {
+		else if (p.getIcon().getPosition().x + (p.getIcon().getRadius()) > VIEWPORT_WIDTH || p.getIcon().getPosition().y +(p.getIcon().getRadius()) > VIEWPORT_HEIGHT || p.getIcon().getPosition().x < 0 || p.getIcon().getPosition().y < 0) {
 			cout << "SPAWN FUORI DAI LIMITI" << endl;
-			Planet tmp;
-			*p = tmp;
+			p = Planet();
 
 			k = 0;
 		}
-		else
+		else {
 			k++;
+		}
 	}
 
-	mapPlanets.push_back(*p);
+	mapPlanets.push_back(p);
 		
 	//DEBUG
 	cout << "Pianeta spawnato" << endl;

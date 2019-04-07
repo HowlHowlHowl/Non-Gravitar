@@ -15,14 +15,20 @@ Planet::Planet()
 	icon.setFillColor(sf::Color(rand() % 255, rand() % 255, rand() % 255));
 	icon.setPosition((float)(rand() % VIEWPORT_WIDTH-2*(icon.getRadius())), (float)(rand() % VIEWPORT_HEIGHT - 2 * (icon.getRadius())));
 
-	//Nome random del pianeta (randomn 10 lettere)
-	for (unsigned int i = 0; i < (unsigned int) rand()%10+rand() % 10; ++i)
+	//Nome random del pianeta (random 10 lettere)
+	char nomeRandom[11];
+	int i = 0;
+	int length = rand() % 10 + 1;
+	while (i < length)
 	{
-		nomePianeta += genRandom();
+		nomeRandom[i] = randAlphanum();
+		i++;
 	}
+	nomeRandom[i] = 0;
+	nomePianeta = String(nomeRandom);
 
 	//Impostazioni del pianeta
-	nbunker = 3;
+	nbunker = 5;
 	circumnference = 0;
 	//Impostazioni del terreno e spawn degli oggetti
 	terrainColor = Color::Green;
@@ -44,7 +50,7 @@ void Planet::update(float dt,ship &ship, std::vector<Bullet>& shipBullets, std::
 		bunkers[i]->update(dt, bunkerBullets);
 	}
 	collisions(ship, shipBullets, bunkerBullets);
-	if (fuelBonus != NULL && isInsideTriangle(ship) && Keyboard::isKeyPressed(Keyboard::F)) {
+	if (Keyboard::isKeyPressed(Keyboard::F) && fuelBonus != NULL && isInsideTriangle(ship)) {
 		fuelBonus->update(ship);
 		if (fuelBonus->isTook()) {
 			delete fuelBonus;
@@ -122,10 +128,8 @@ void Planet::draw(RenderWindow &window) {
 	}
 }
 
-void Planet::drawIcon(RenderWindow &window){
-	sf::Font font;
+void Planet::drawIcon(RenderWindow &window, Font& font){
 	sf::Text text;
-	font.loadFromFile("gamefont.ttf");
 	//Selezione del font
 	text.setFont(font);
 	//set the string to display
@@ -145,8 +149,7 @@ bool Planet::destroyed(){
 		return true;
 	return false;
 }
-void Planet::created(){
-}
+
 bool Planet::intersectsTerrain(Vector2f pos, float radius)
 {
 	for (int i = 0; i < terrainVertices.size() - 1; i++)
@@ -175,12 +178,12 @@ void Planet::generateRandomTerrain()
 	int MinY = VIEWPORT_HEIGHT / 2;
 	int MaxY = VIEWPORT_HEIGHT - VIEWPORT_HEIGHT / 8;
 	int DeltaY = MaxY - MinY;
-	int vertCount = 10;
+	int vertCount = 20;
 
 	terrainVertices.clear();
 	for (int i = 0; i <= vertCount; i++)
 	{
-		Vector2f pos((float)(VIEWPORT_WIDTH / vertCount * i), (float)(rand() % DeltaY + MinY));
+		Vector2f pos((float)PLANET_WIDTH / vertCount * i, (float)(rand() % DeltaY + MinY));
 		Vertex vert(pos, terrainColor);
 		terrainVertices.push_back(vert);
 	}
@@ -230,7 +233,7 @@ bool Planet::isInsideTriangle(ship& ship) {
 	Vector2f p = fuelBonus->getPosition();
 	float sum = area(p, a, b) + area(p, b, c) + area(p, a, c);
 	//Il fuel è nel raggio?
-	return (area(a, b, c) == sum);
+	return (abs(area(a, b, c) - sum) < 0.01);
 }
 CircleShape Planet::getIcon() {
 	return icon;

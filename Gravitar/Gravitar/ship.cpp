@@ -3,7 +3,6 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-
 #include "bullet.h"
 #include "Global.h"
 #include "utils.h"
@@ -39,77 +38,56 @@ ship::ship()
 void ship::init(){
 	//Respawn
 	std::cout << "SPAWN" << std::endl;
-	carburante = max_carburante;
 
-	/*
-	this->xpos = VIEWPORT_WIDTH / 2.0f;
-	this->ypos = VIEWPORT_HEIGHT / 10.0f;
-	*/
+	carburante = max_carburante;
 	this->xpos = 50.f;
 	this->ypos = 50.f;
 	shape.setPosition(xpos, ypos);
-}
-//Funzioni di Movimento
-void ship::up_m(float dt) {
-	xpos += 0.f;
-	ypos -= dt*speed;
-	
-	carburante -= dt * speed;
 
-	shape.setRotation(0.0f);
+	speed = 0.0f;
 }
-void ship::down_m(float dt) {
-	xpos += 0.f;
-	ypos += dt*speed;
-	carburante -= dt * speed;
-	shape.setRotation(180.0f);
-}
-void ship::right_m(float dt) {
-	xpos += dt*speed;
-	ypos += 0.f;
-	carburante -= dt * speed;
 
-
-	shape.setRotation(90.0f);
-}
-void ship::left_m(float dt) {
-	xpos -= dt*speed;
-	ypos += 0.f;
-	carburante -= dt * speed;
-
-
-	shape.setRotation(270.0f);
-}
 //Sparo e raccolta
 void ship::shoot(std::vector<Bullet> &bullets) {
-	std::cout << "BIm"<< std::endl;
-	bullets.emplace_back(xpos, ypos, dir, 5.f);
+	std::cout << "Bim"<< std::endl;
+
+	float angle = degToRad(shape.getRotation() - 90);
+	Vector2f direction(cos(angle), sin(angle));
+	bullets.emplace_back(shape.getPosition(), direction, 5.f);
 }
 //Funzioni utili
-void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem){
-
+void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem) {
 	//Movimento ship
 	if (carburante > 0) {
 		if (Keyboard::isKeyPressed(Keyboard::Left))
 		{
-			left_m(dt);
-			dir = LEFT;
+			shape.setRotation(shape.getRotation() - 200 * dt);
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Right))
 		{
-			right_m(dt);
-			dir = RIGHT;
-		}
-		if (Keyboard::isKeyPressed(Keyboard::Up))
-		{
-			up_m(dt);
-			dir = UP;
-		}
-		if (Keyboard::isKeyPressed(Keyboard::Down)) {
-			down_m(dt);
-			dir = DOWN;
+			shape.setRotation(shape.getRotation() + 200 * dt);		
 		}
 
+		if (Keyboard::isKeyPressed(Keyboard::Up)) {
+			speed += dt * acceleration;
+		}
+		if (Keyboard::isKeyPressed(Keyboard::Down)) {
+			speed -= dt * acceleration;
+		}
+		if (!(Keyboard::isKeyPressed(Keyboard::Up) || Keyboard::isKeyPressed(Keyboard::Down))) {
+			speed *= 0.95;
+		}
+
+
+		speed = clamp(speed, -max_speed, max_speed);
+
+		float angle = degToRad(shape.getRotation() - 90);
+		Vector2f direction(cos(angle), sin(angle));
+
+		xpos += direction.x * dt * speed;
+		ypos += direction.y * dt * speed;
+		carburante -= dt * speed;
+		
 		float halfShipSize = shape.getSize().x / 2.f;
 		if (isInSystem) {
 			xpos = clamp(xpos, halfShipSize, VIEWPORT_WIDTH - halfShipSize);
@@ -118,11 +96,14 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem){
 		else {
 			xpos = clamp(xpos, halfShipSize, PLANET_WIDTH - halfShipSize);
 		}
-		
+		//Aggiornamento posizione
+		shape.setPosition(xpos, ypos);
+
+
 		ray.setPointCount(3);
-		Vector2f pos1(shape.getPosition().x - 50, getPosition().y + 75);
+		Vector2f pos1(shape.getPosition().x - 25, getPosition().y + 80);
 		Vector2f pos2(shape.getPosition());
-		Vector2f pos3(shape.getPosition().x + 50, getPosition().y + 75);
+		Vector2f pos3(shape.getPosition().x + 25, getPosition().y + 80);
 		ray.setPoint(0, pos1);
 		ray.setPoint(1, pos2);
 		ray.setPoint(2, pos3);
@@ -138,10 +119,6 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem){
 			shoot(bullets);
 		}
 	}
-
-	//Aggiornamento posizione
-	shape.setPosition(xpos, ypos);
-
 }
 
 void ship::drawHUD(RenderWindow& finestra) {
@@ -209,4 +186,7 @@ Vector2f ship::getPointRay(int x) {
 void ship::setPosition(float x, float y) {
 	xpos = x;
 	ypos = y;
+}
+float ship::getFuel() {
+	return carburante;
 }

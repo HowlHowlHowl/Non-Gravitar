@@ -8,9 +8,11 @@
 
 Fuel::Fuel(Vector2f pos)
 {
-	shape.setFillColor(Color::White);
-	shape.setPosition(pos.x, (pos.y - rand() % 200 - 20));
 	shape.setRadius(10.f);
+	shape.setFillColor(Color::White);
+	shape.setOrigin(shape.getRadius(), shape.getRadius()*2);
+	shape.setPosition(pos.x, pos.y);
+	
 
 	if (!fuelTexture.loadFromFile("fuel.png"))
 		std::cout << "Error: cannot load fuel.png" << std::endl;

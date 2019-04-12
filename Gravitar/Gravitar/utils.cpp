@@ -1,9 +1,6 @@
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <math.h>
 
+#include "utils.h"
 
-#define PI 3.14159265359f
 using namespace sf;
 
 //ritorna value ma compreso tra min e max
@@ -34,6 +31,11 @@ float randf01()
 //Da radianti a gradi
 float radToDeg(float rad) {
 	return rad * 180.f / PI;
+}
+
+//Da gradi a radianti
+float degToRad(float deg) {
+	return deg * PI / 180.f;
 }
 
 //Distanza tra 2 punti

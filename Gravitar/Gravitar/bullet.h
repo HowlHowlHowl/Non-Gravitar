@@ -6,13 +6,12 @@ using namespace sf;
 class Bullet
 {
 protected:
-	float xpos;
-	float ypos;
 	float speed = 180.f;
 	CircleShape shape;
-	direction dir;
+	Vector2f dir;
+	Texture bulletTexture;
 public:
-	Bullet(float spawn_xpos, float spawn_ypos, direction dir_I, float radius);
+	Bullet(Vector2f pos, Vector2f dir_I, float radius);
 	void update(float dt);
 	void draw(RenderWindow &finestra);
 	void spawn();

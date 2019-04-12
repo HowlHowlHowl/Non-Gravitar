@@ -3,39 +3,28 @@
 
 using namespace sf;
 
-Bullet::Bullet(float spawn_xpos, float spawn_ypos,direction dir_I, float radius)
+Bullet::Bullet(Vector2f pos, Vector2f dir_I, float radius)
 {
-	xpos = spawn_xpos,
-	ypos = spawn_ypos;
+	shape.setPosition(pos);
 	dir = dir_I;
 	shape.setRadius(radius);
 	shape.setOrigin(radius, radius);
-	shape.setFillColor(Color::Magenta);
+	shape.setFillColor(Color::Yellow);
+	//bulletTexture.loadFromFile("bullet.png");    shape.setTexture(&bulletTexture);
 }
 
 void Bullet::update(float dt){
-	if (dir == LEFT)
-	{
-		xpos -= speed * dt;
-	}
-	if (dir == RIGHT)
-	{
-		xpos += speed * dt;
-	}
-	if (dir == UP)
-	{
-		ypos -= speed*dt;
-	}
-	if (dir == DOWN) {
-		ypos += speed*dt;
-	}
-
-	shape.setPosition(xpos,ypos);
+	shape.setPosition(shape.getPosition() + dir * speed * dt);
 }
+
 void Bullet::draw(RenderWindow &finestra) {
 	finestra.draw(shape);
 }
+
 void Bullet::spawn() {
 
 }
-CircleShape Bullet::getShape() { return shape; };
+
+CircleShape Bullet::getShape() { 
+	return shape; 
+};

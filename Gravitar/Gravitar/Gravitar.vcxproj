@@ -133,6 +133,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="ship.cpp" />
+    <ClCompile Include="ObjectTexture.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +145,7 @@
     <ClInclude Include="Global.h" />
     <ClInclude Include="Planet.h" />
     <ClInclude Include="ship.h" />
+    <ClInclude Include="ObjectTexture.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>

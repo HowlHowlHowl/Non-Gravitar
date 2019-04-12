@@ -10,7 +10,8 @@ Bunker2::Bunker2(Vector2f pos, float rotation) : Bunker(pos, rotation)
 void Bunker2::shoot(std::vector<Bullet> &bullets)
 {
 	Vector2f pos = shape.getPosition();
-	bullets.emplace_back(pos.x + 20, pos.y, UP, BUNKER_BULLET_RADIUS);
-	bullets.emplace_back(pos.x - 20, pos.y, UP, BUNKER_BULLET_RADIUS);
-	bullets.emplace_back(pos.x, pos.y, UP, BUNKER_BULLET_RADIUS);
+	Vector2f dir(0.0f, -1.0f);
+	bullets.emplace_back(pos + Vector2f(20, 0), dir, BUNKER_BULLET_RADIUS);
+	bullets.emplace_back(pos + Vector2f(-20, 0), dir, BUNKER_BULLET_RADIUS);
+	bullets.emplace_back(pos, dir, BUNKER_BULLET_RADIUS);
 }

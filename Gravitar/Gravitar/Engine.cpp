@@ -2,6 +2,7 @@
 #include <SFML\Graphics.hpp>
 #include <iostream>
 #include "utils.h"
+#include "ObjectTexture.h"
 
 using namespace sf;
 using namespace std;
@@ -13,6 +14,8 @@ Engine::Engine()
 	//resolution.x = VideoMode::getDesktopMode().width;
 	//resolution.y = VideoMode::getDesktopMode().height;
 
+	
+	
 	//Gioco in finestra
 	finestra.create(VideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT),"Gravitar Game Engine");
 	finestra.setFramerateLimit(60);
@@ -39,8 +42,16 @@ void Engine::start(){
 	//Loop in game
 	Clock clock;
 	float dt;
-
+	
 	inGame = true;
+	//Background set
+	Texture sky;
+	sky.setSmooth(true);
+	sky.loadFromFile("cosmos.png");
+	Vector2f bg(VIEWPORT_WIDTH*2 , VIEWPORT_HEIGHT);
+	background.setSize(bg);
+	background.setTexture(&sky);
+
 
 	while (finestra.isOpen() && inGame)
 	{
@@ -85,6 +96,7 @@ void Engine::start(){
 		update(dt);
 
 		//Disegno della scena
+		
 		draw();
 
 	}
@@ -98,6 +110,9 @@ void Engine::update(float dt) {
 	if (ship.getPosition().y < -100 && !MenuCamper) {
 		MenuCamper = true;
 		ship.setPosition(0, 0);
+	}
+	if (ship.getFuel() <= 0) {
+		gameOver();
 	}
 	//Selezione pianeta
 	if (MenuCamper) {
@@ -150,9 +165,8 @@ void Engine::update(float dt) {
 
 void Engine::draw() {
 
-	finestra.clear(Color::Black);
-
 	//Disegno astronave
+	finestra.draw(background);
 	ship.draw(finestra);
 
 	//Disegno mappa pianeti
@@ -259,7 +273,6 @@ void Engine::generatePlanets(int i) {
 	cout << "Pianeta spawnato" << endl;
 }
 void Engine::gameOver() {
-
 	finestra.clear(Color::Black);
 
 	//GameOverText

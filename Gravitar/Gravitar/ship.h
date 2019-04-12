@@ -9,8 +9,10 @@ class ship
 {
 	protected:
 		const float max_carburante = 10000.f;
+		const float max_speed = 350.f;
+		const float acceleration = 650.f;
 		float carburante;
-		float speed = 350.f;
+		float speed;
 		float xpos;
 		float ypos;
 		RectangleShape shape;
@@ -19,10 +21,6 @@ class ship
 		float shootTimer = 0.f;
 		direction dir;
 		ConvexShape ray;
-		void left_m(float dt);
-		void right_m(float dt);
-		void up_m(float dt);
-		void down_m(float dt);
 		Texture rayTexture;
 		Texture lifeTexture;
 		Texture shipTexture;
@@ -40,5 +38,6 @@ class ship
 		void getBonus(float dt);
 		Vector2f getPointRay(int x);
 		void setPosition(float x, float y);
+		float getFuel();
 };
 

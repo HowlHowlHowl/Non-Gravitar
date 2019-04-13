@@ -2,10 +2,11 @@
 #include <SFML\Graphics.hpp>
 #include <iostream>
 #include "utils.h"
-#include "ObjectTexture.h"
 
 using namespace sf;
 using namespace std;
+
+ResourceManager resourceManager;
 
 Engine::Engine()
 {
@@ -20,6 +21,7 @@ Engine::Engine()
 	finestra.create(VideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT),"Gravitar Game Engine");
 	finestra.setFramerateLimit(60);
 	font.loadFromFile("gamefont.ttf");
+	resourceManager.loadTextures();
 
 
 	srand((unsigned int)time(0));
@@ -111,6 +113,15 @@ void Engine::update(float dt) {
 		MenuCamper = true;
 		ship.setPosition(0, 0);
 	}
+	//Pacman sx
+	if (ship.getPosition().x < -50 && !MenuCamper) {
+		ship.setPosition(VIEWPORT_WIDTH * 2 + 50, ship.getPosition().y);
+	}
+	//Pacman dx
+	if (ship.getPosition().x > VIEWPORT_WIDTH*2+50 && !MenuCamper) {
+		ship.setPosition(-50, ship.getPosition().y);
+	}
+	//Fuel Esaurito
 	if (ship.getFuel() <= 0) {
 		gameOver();
 	}
@@ -118,7 +129,7 @@ void Engine::update(float dt) {
 	if (MenuCamper) {
 		planetSelection();
 
-		//Pulizia proiettili della nave
+		//Pulizia proiettili di bunker e nave
 		shipBullets.clear();
 		bunkerBullets.clear();
 	}

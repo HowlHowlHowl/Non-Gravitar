@@ -3,6 +3,7 @@
 #include <vector>
 #include "bullet.h"
 #include "Global.h"
+#include "ResourceManager.h"
 using namespace sf;
 
 class ship
@@ -17,13 +18,11 @@ class ship
 		float ypos;
 		RectangleShape shape;
 		int life;
-		float shootCooldown = 0.5f;
+		float shootCooldown = 0.3f;
 		float shootTimer = 0.f;
 		direction dir;
 		ConvexShape ray;
-		Texture rayTexture;
-		Texture lifeTexture;
-		Texture shipTexture;
+	
 	public:	
 		ship();		
 		void update(float dt,std::vector<Bullet> &bullets, bool isInSystem);

@@ -15,8 +15,8 @@ protected:
 	float bunkerHeight = 15.f;
 	float bunkerWidth = 30.f;
 	float shootTime = 0.f;
-	const float shootCooldown = 3.0f;
-	Texture bunkerTexture;
+	const float shootCooldown = 2.0f;
+
 public:
 	Bunker(Vector2f pos, float rotation);
 	void draw(RenderWindow &finestra);

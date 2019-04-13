@@ -1,7 +1,7 @@
 #include "Bunker.h"
 #include "bullet.h"
 #include "utils.h"
-
+#include "ResourceManager.h"
 
 Bunker::Bunker(Vector2f pos, float rotation)
 {
@@ -10,9 +10,7 @@ Bunker::Bunker(Vector2f pos, float rotation)
 	shape.setSize(Vector2f(bunkerWidth, bunkerHeight));
 	shape.setOrigin(bunkerWidth / 2.0f, bunkerHeight);
 	shootTime = randf01() * shootCooldown;
-
-	bunkerTexture.loadFromFile("bunker.png");
-	shape.setTexture(&bunkerTexture);
+	shape.setTexture(resourceManager.getBunkerTexture());
 }
 
 void Bunker::draw(RenderWindow & finestra)

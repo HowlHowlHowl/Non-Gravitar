@@ -1,9 +1,9 @@
 #include "Bunker2.h"
+#include "ResourceManager.h"
 
 Bunker2::Bunker2(Vector2f pos, float rotation) : Bunker(pos, rotation)
 {
-	bunker2Texture.loadFromFile("bunker2.png");
-	shape.setTexture(&bunker2Texture);
+	shape.setTexture(resourceManager.getBunker2Texture());
 }
 
 

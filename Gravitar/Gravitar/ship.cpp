@@ -16,29 +16,13 @@ ship::ship()
 	shape.setOrigin(shape.getSize() / 2.0f);		
 	shape.setFillColor(Color::White);
 	life = 3;
-
-	if (!rayTexture.loadFromFile("ray.png"))
-		std::cout << "Error: cannot load ray.png" << std::endl;
-
-	if (!lifeTexture.loadFromFile("vita.png"))
-		std::cout << "Error: cannot load vita.png" << std::endl;
-
-	if (!shipTexture.loadFromFile("ship.png"))
-		std::cout << "Error: cannot load ship.png" << std::endl;
-
-	lifeTexture.setSmooth(true);
-	shipTexture.setSmooth(true);
-	rayTexture.setSmooth(true);
-
-	shape.setTexture(&shipTexture);
-
+	ray.setTexture(resourceManager.getRayTexture());
 	init();
 	
 }
 void ship::init(){
 	//Respawn
 	std::cout << "SPAWN" << std::endl;
-
 	carburante = max_carburante;
 	this->xpos = 50.f;
 	this->ypos = 50.f;
@@ -49,14 +33,18 @@ void ship::init(){
 
 //Sparo e raccolta
 void ship::shoot(std::vector<Bullet> &bullets) {
-	std::cout << "Bim"<< std::endl;
 
 	float angle = degToRad(shape.getRotation() - 90);
 	Vector2f direction(cos(angle), sin(angle));
-	bullets.emplace_back(shape.getPosition(), direction, 5.f);
+  	bullets.emplace_back(shape.getPosition(), direction, 5.f);
 }
 //Funzioni utili
 void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem) {
+
+
+	//Carico Texture Ship
+	shape.setTexture(resourceManager.getShipTexture());
+	
 	//Movimento ship
 	if (carburante > 0) {
 		if (Keyboard::isKeyPressed(Keyboard::Left))
@@ -75,7 +63,7 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem) {
 			speed -= dt * acceleration;
 		}
 		if (!(Keyboard::isKeyPressed(Keyboard::Up) || Keyboard::isKeyPressed(Keyboard::Down))) {
-			speed *= 0.95;
+			speed *= 0.95f;
 		}
 
 
@@ -89,13 +77,12 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem) {
 		carburante -= dt * speed;
 		
 		float halfShipSize = shape.getSize().x / 2.f;
+		//Trattiene la ship nei margini if isInSystem
 		if (isInSystem) {
 			xpos = clamp(xpos, halfShipSize, VIEWPORT_WIDTH - halfShipSize);
 			ypos = clamp(ypos, halfShipSize, VIEWPORT_HEIGHT - halfShipSize);
 		}
-		else {
-			xpos = clamp(xpos, halfShipSize, PLANET_WIDTH - halfShipSize);
-		}
+		
 		//Aggiornamento posizione
 		shape.setPosition(xpos, ypos);
 
@@ -108,7 +95,7 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem) {
 		ray.setPoint(1, pos2);
 		ray.setPoint(2, pos3);
 		ray.setFillColor(Color::White);
-		ray.setTexture(&rayTexture);
+	
 	}
 	
 	//Spara se non e' nel sistema
@@ -116,9 +103,10 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem) {
 		shootTimer += dt;
 		if (Keyboard::isKeyPressed(Keyboard::Space) && shootTimer > shootCooldown) {
 			shootTimer = 0;
-			shoot(bullets);
+ 			shoot(bullets);
 		}
 	}
+	
 }
 
 void ship::drawHUD(RenderWindow& finestra) {
@@ -126,7 +114,7 @@ void ship::drawHUD(RenderWindow& finestra) {
 
 	for (int i = 0; i < life; i++) {
 		Sprite temp_sprite;
-		temp_sprite.setTexture(lifeTexture);
+		temp_sprite.setTexture(*resourceManager.getHealtTexture());
 
 		//Posizione temporanea dei cuori
 		temp_sprite.setPosition(temp_x, VIEWPORT_HEIGHT - 50);
@@ -154,6 +142,7 @@ void ship::drawHUD(RenderWindow& finestra) {
 void ship::draw(RenderWindow &finestra) {
 
 	if (Keyboard::isKeyPressed(Keyboard::F)) {
+		ray.setTexture(resourceManager.getRayTexture());
 		finestra.draw(ray);
 	}
 
@@ -166,6 +155,8 @@ void ship::Destroy() {
 	life--;
 	std::cout << "Vite rimaste: "<<life<< std::endl;
 	init();
+	//Rimedia (0,0) di init();
+	setPosition(PLANET_WIDTH / 2, 100);
 }
 Vector2f ship::getPosition() {
 	return Vector2f(xpos,ypos);

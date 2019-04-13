@@ -1,15 +1,16 @@
 #pragma once
 #include <SFML\Graphics.hpp>
 #include "Global.h"
+
+
 using namespace sf;
 
 class Bullet
 {
 protected:
-	float speed = 180.f;
+	float speed = 220.f;
 	CircleShape shape;
 	Vector2f dir;
-	Texture bulletTexture;
 public:
 	Bullet(Vector2f pos, Vector2f dir_I, float radius);
 	void update(float dt);

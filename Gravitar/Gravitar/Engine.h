@@ -3,9 +3,8 @@
 #include "ship.h"
 #include "bullet.h"
 #include "Planet.h"
+#include "ResourceManager.h"
 #include <vector>
-#include "ObjectTexture.h"
-
 
 using namespace sf;
 class Engine

@@ -68,46 +68,74 @@ void Planet::update(float dt,ship &ship, std::vector<Bullet>& shipBullets, std::
 	}
 	
 }
+
+bool Planet::isOutOfPlanet(Vector2f pos, float radius) {
+	if (pos.y < -radius || pos.y > VIEWPORT_HEIGHT + radius || pos.x > PLANET_WIDTH + radius || pos.x < -radius) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet>& bunkerBullets) {
 	//astronvave collision
 	if (intersectsTerrain(ship.getPosition(), ship.getShape().getSize().x / 2.f)) {
 		std::cout << "COllision!" << std::endl;
 		ship.Destroy();
 	}
-	//Proiettili bunker collisions con ship
+	//Proiettili bunker - ship collision
 	for (int i = 0; i < bunkerBullets.size(); i++) {
-		float radius = ((ship.getShape().getSize().x)/2) + bunkerBullets[i].getShape().getRadius();
+		Vector2f shipPos = ship.getPosition();
+		float shipHalfSize = ship.getShape().getSize().x / 2;
+		Vector2f  bunkBulletPos = bunkerBullets[i].getShape().getPosition();
+		float bunkBulletRadius = bunkerBullets[i].getShape().getRadius();
 
-		if (distance(ship.getPosition(), bunkerBullets[i].getShape().getPosition()) < radius) 
-		{
-			ship.Destroy();
-			bunkerBullets.clear();
-			
+		float radius = shipHalfSize + bunkBulletRadius;
+		if (isOutOfPlanet(bunkBulletPos, bunkBulletRadius)) {
+			bunkerBullets.erase(bunkerBullets.begin() + i);
+			i--;
 		}
-
-	}
-	//Proiettili collision
-	for (int i = 0; i < shipBullets.size(); i++) {
-
-		for (int j = 0; j < bunkers.size(); j++) {
-			Bunker* bunk = bunkers[j];
-			Vector2f bunkPos = bunk->getShape().getPosition();
-			Vector2f bunkSize = bunk->getShape().getSize();
-			if (distance(shipBullets[i].getShape().getPosition(), bunkPos)< bunkSize.x / 2.f + shipBullets[i].getShape().getRadius()) {
-				bunk->takeDamage();
-				if (!bunk->isAlive()) {
-					delete bunk;
-					bunkers.erase(bunkers.begin() + j); 
-					j--;
-				}
-
-				shipBullets.erase(shipBullets.begin() + i);
-				i--;
-				// wait what, a wild break has appeared
-				break;
+		else {
+			if (distance(shipPos, bunkBulletPos) < radius)
+			{
+				ship.Destroy();
+				bunkerBullets.clear();
 			}
 		}
 	}
+	//Proiettili ship - Bunker collision
+	for (int i = 0; i < shipBullets.size(); i++) {
+		Vector2f shipBulletPos = shipBullets[i].getShape().getPosition();
+		float shipBulletRadius = shipBullets[i].getShape().getRadius();
+		if (isOutOfPlanet(shipBulletPos, shipBulletRadius)) {
+			shipBullets.erase(shipBullets.begin() + i);
+			i--;
+		}
+		else {
+			for (int j = 0; j < bunkers.size(); j++) {
+				Bunker* bunk = bunkers[j];
+				Vector2f bunkPos = bunk->getShape().getPosition();
+				Vector2f bunkSize = bunk->getShape().getSize();
+
+				if (distance(shipBulletPos, bunkPos) < bunkSize.x / 2.f + shipBulletRadius) {
+					bunk->takeDamage();
+					if (!bunk->isAlive()) {
+						delete bunk;
+						bunkers.erase(bunkers.begin() + j);
+						j--;
+					}
+
+					shipBullets.erase(shipBullets.begin() + i);
+					i--;
+					// wait what, a wild break has appeared
+					break;
+				}
+			}
+		}
+	}
+	
+	//Proiettili astronave - Terreno collision
 	for (int i = 0; i < shipBullets.size(); i++) {
 		CircleShape bullet = shipBullets[i].getShape();
 		if (intersectsTerrain(bullet.getPosition(), bullet.getRadius())) {

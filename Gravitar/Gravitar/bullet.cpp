@@ -5,7 +5,7 @@
 
 using namespace sf;
 
-Bullet::Bullet(Vector2f pos, Vector2f dir_I, float radius)
+Bullet::Bullet(Vector2f pos, Vector2f dir_I, float radius, bool isEvil)
 {
 	
  	shape.setRotation(radToDeg(std::atan2(dir_I.y, dir_I.x))-90);
@@ -13,7 +13,11 @@ Bullet::Bullet(Vector2f pos, Vector2f dir_I, float radius)
 	dir = dir_I;
 	shape.setRadius(radius);
 	shape.setOrigin(radius, radius);
-	shape.setFillColor(Color::White);
+	if (isEvil) {
+		shape.setFillColor(Color::White);
+	} else {
+		shape.setFillColor(Color::Cyan);
+	}
 	shape.setTexture(resourceManager.getBulletTexture());
 	
 }

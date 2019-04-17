@@ -21,6 +21,7 @@ protected:
 	float bonusSpawn = 15.f;
 	float bonusCooldown = 0.f;
 	float max_bonus = 3;
+	bool isOutOfPlanet(Vector2f pos, float radius);
 
 
 public:
@@ -30,7 +31,6 @@ public:
 	void draw(RenderWindow &window);
 	void collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet> &bunkerBullets);
 	bool destroyed();
-	void created();
 	bool intersectsTerrain(Vector2f pos, float radius);
 	void generateRandomTerrain();
 	void deleteAllBunkers();

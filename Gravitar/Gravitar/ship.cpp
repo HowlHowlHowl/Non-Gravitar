@@ -36,7 +36,7 @@ void ship::shoot(std::vector<Bullet> &bullets) {
 
 	float angle = degToRad(shape.getRotation() - 90);
 	Vector2f direction(cos(angle), sin(angle));
-  	bullets.emplace_back(shape.getPosition(), direction, 5.f);
+  	bullets.emplace_back(shape.getPosition(), direction, 5.f, false);
 }
 //Funzioni utili
 void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem) {
@@ -114,7 +114,7 @@ void ship::drawHUD(RenderWindow& finestra) {
 
 	for (int i = 0; i < life; i++) {
 		Sprite temp_sprite;
-		temp_sprite.setTexture(*resourceManager.getHealtTexture());
+		temp_sprite.setTexture(*resourceManager.getHealthTexture());
 
 		//Posizione temporanea dei cuori
 		temp_sprite.setPosition(temp_x, VIEWPORT_HEIGHT - 50);

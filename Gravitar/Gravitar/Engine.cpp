@@ -107,7 +107,6 @@ void Engine::start(){
 void Engine::update(float dt) {	
 
 	//Update astronave
- 
 	ship.update(dt,shipBullets,MenuCamper);
 	if (ship.getPosition().y < -100 && !MenuCamper) {
 		MenuCamper = true;
@@ -134,7 +133,7 @@ void Engine::update(float dt) {
 		bunkerBullets.clear();
 	}
 	else {
-		
+		cout << "Numero proiettili: ship = " << shipBullets.size() << " | bunker = " << bunkerBullets.size() << std::endl;
 
 		//Update pianeta
 		mapPlanets[NPianeta].update(dt, ship, shipBullets, bunkerBullets);
@@ -177,15 +176,14 @@ void Engine::update(float dt) {
 void Engine::draw() {
 
 	//Disegno astronave
+	finestra.setView(finestra.getDefaultView());
 	finestra.draw(background);
-	ship.draw(finestra);
 
 	//Disegno mappa pianeti
 	if (MenuCamper) {
 		finestra.setView(finestra.getDefaultView());
-
-		ship.drawHUD(finestra);
-
+		ship.draw(finestra);
+		
 		int i = 0;
 		while (i < NTotalePianeti) {
 			mapPlanets[i].drawIcon(finestra, font);
@@ -194,10 +192,6 @@ void Engine::draw() {
 	}
 	//Disegno pianeta e dei proiettili
 	else {
-		//Disegno HUD
-		finestra.setView(finestra.getDefaultView());
-		ship.drawHUD(finestra);
-
 		//Disegno il giuoco
 		float minCameraX = VIEWPORT_WIDTH / 2.f;
 		float maxCameraX = PLANET_WIDTH - VIEWPORT_WIDTH / 2.f;
@@ -207,7 +201,7 @@ void Engine::draw() {
 		finestra.setView(View(cameraCenter, Vector2f(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
 
 		mapPlanets[NPianeta].draw(finestra);
-
+		
 		//Disegno proiettili
 		for (int i = 0; i < shipBullets.size(); i++)
 		{
@@ -217,9 +211,13 @@ void Engine::draw() {
 		{
 			bunkerBullets[i].draw(finestra);
 		}
-
+		ship.draw(finestra);
 	}
-	
+
+	//Disegno HUD
+	finestra.setView(finestra.getDefaultView());
+	ship.drawHUD(finestra);
+
 	//Disegno della scena
 	finestra.display();
 }

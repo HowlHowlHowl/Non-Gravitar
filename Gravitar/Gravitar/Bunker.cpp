@@ -44,7 +44,7 @@ void Bunker::shoot(std::vector<Bullet> &bullets)
 {
 	Vector2f pos = shape.getPosition();
 	Vector2f dir(0.0f, -1.0f);
-	bullets.emplace_back(pos + Vector2f(20, 0), dir, BUNKER_BULLET_RADIUS);
-	bullets.emplace_back(pos + Vector2f(-20, 0), dir, BUNKER_BULLET_RADIUS);
+	bullets.emplace_back(pos + Vector2f(20, 0), dir, BUNKER_BULLET_RADIUS, true);
+	bullets.emplace_back(pos + Vector2f(-20, 0), dir, BUNKER_BULLET_RADIUS, true);
 }
 

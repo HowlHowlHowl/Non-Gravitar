@@ -29,11 +29,14 @@ void ResourceManager::loadTextures() {
 	if (!rayTexture->loadFromFile("ray.png"))
 		std::cout << "Error: cannot load ray.png" << std::endl;
 	
+	fuelTexture = new Texture();
+	if (!fuelTexture->loadFromFile("fuel.png"))
+		std::cout << "Error: cannot load fuel.png" << std::endl;
 
-	healtTexture = new Texture();
-	if(!healtTexture->loadFromFile("vita.png"))
+	healthTexture = new Texture();
+	if(!healthTexture->loadFromFile("vita.png"))
 		std::cout << "Error: cannot loat vita.png" << std::endl;
-	healtTexture->setSmooth(true);
+	healthTexture->setSmooth(true);
 }
 
 Texture * ResourceManager::getBunkerTexture()
@@ -59,7 +62,12 @@ Texture * ResourceManager::getRayTexture()
 {
 	return rayTexture;
 }
-Texture * ResourceManager::getHealtTexture()
+Texture * ResourceManager::getHealthTexture()
 {
-	return healtTexture;
+	return healthTexture;
+}
+
+Texture * ResourceManager::getFuelTexture()
+{
+	return fuelTexture;
 }

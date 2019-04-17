@@ -14,7 +14,7 @@ protected:
 	CircleShape shape;
 	float radius = 5.f;
 	bool took=false;
-	Texture fuelTexture;
+	Texture* fuelTexture;
 public:
 	Fuel(Vector2f pos);
 	void draw(RenderWindow &finestra);

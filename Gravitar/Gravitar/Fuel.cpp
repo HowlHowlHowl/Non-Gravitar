@@ -13,13 +13,9 @@ Fuel::Fuel(Vector2f pos)
 	shape.setOrigin(shape.getRadius(), shape.getRadius()*2);
 	shape.setPosition(pos.x, pos.y);
 	
-
-	if (!fuelTexture.loadFromFile("fuel.png"))
-		std::cout << "Error: cannot load fuel.png" << std::endl;
-
-	fuelTexture.setSmooth(true);
+	fuelTexture = resourceManager.getFuelTexture();
 	std::cout << "spawnBonus"<<std::endl;
-	shape.setTexture(&fuelTexture);
+	shape.setTexture(fuelTexture);
 }
 void Fuel::draw(RenderWindow&finestra)
 {

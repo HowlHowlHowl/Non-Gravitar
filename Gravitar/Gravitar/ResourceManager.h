@@ -12,7 +12,8 @@ class ResourceManager
 	Texture* bulletTexture;
 	Texture* shipTexture;
 	Texture* rayTexture;
-	Texture* healtTexture;
+	Texture* healthTexture;
+	Texture* fuelTexture;
 
 public:
 	ResourceManager();
@@ -24,7 +25,8 @@ public:
 	Texture* getShipTexture();
 	Texture* getBulletTexture();
 	Texture* getRayTexture();
-	Texture* getHealtTexture();
+	Texture* getHealthTexture();
+	Texture* getFuelTexture();
 };
 
 extern ResourceManager resourceManager;

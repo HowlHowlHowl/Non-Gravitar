@@ -6,13 +6,18 @@
 #include "ResourceManager.h"
 #include <vector>
 
+enum GameState {
+	GAMESTATE_SOLAR_SYSTEM,
+	GAMESTATE_PLANET,
+	GAMESTATE_OVER,
+};
+
 using namespace sf;
 class Engine
 {
 protected:
-	bool inGame;
-	//Numeri di pianeti
-	int NTotalePianeti = 6;
+	GameState state = GAMESTATE_SOLAR_SYSTEM;
+	
 	//Sfondo
 	RectangleShape background;
 	//Finestra
@@ -24,7 +29,6 @@ protected:
 	std::vector<Bullet> shipBullets;
 	std::vector<Bullet> bunkerBullets;
 	std::vector<Planet> mapPlanets;
-	bool MenuCamper;
 	int NPianeta;
 
 
@@ -32,8 +36,8 @@ protected:
 	void update(float dt);
 	void draw();
 	void planetSelection();
-	void generatePlanets(int i);
-	void gameOver();
+	void generatePlanets();
+	//void gameOver();
 	void restartGame();
 public:
 	Engine();

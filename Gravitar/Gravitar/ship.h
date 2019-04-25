@@ -9,18 +9,15 @@ using namespace sf;
 class ship
 {
 	protected:
-		const float max_carburante = 10000.f;
+		const float max_carburante = SHIP_MAX_FUEL;
 		const float max_speed = 350.f;
 		const float acceleration = 650.f;
 		float carburante;
 		float speed;
-		float xpos;
-		float ypos;
 		RectangleShape shape;
 		int life;
 		float shootCooldown = 0.3f;
 		float shootTimer = 0.f;
-		direction dir;
 		ConvexShape ray;
 	
 	public:	
@@ -31,7 +28,7 @@ class ship
 		void init();
 		Vector2f getPosition();
 		RectangleShape getShape();
-		void Destroy();
+		void Destroy(bool inPlanet);
 		void shoot(std::vector<Bullet> &bullets);
 		bool isAlive();
 		void getBonus(float dt);

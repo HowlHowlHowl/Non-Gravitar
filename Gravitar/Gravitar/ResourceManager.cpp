@@ -37,6 +37,11 @@ void ResourceManager::loadTextures() {
 	if(!healthTexture->loadFromFile("vita.png"))
 		std::cout << "Error: cannot loat vita.png" << std::endl;
 	healthTexture->setSmooth(true);
+
+	backgroundTexture = new Texture();
+	if (!backgroundTexture->loadFromFile("cosmos.png"))
+		std::cout << "Error: cannot loat cosmos.png" << std::endl;
+	backgroundTexture->setSmooth(true);
 }
 
 Texture * ResourceManager::getBunkerTexture()
@@ -70,4 +75,9 @@ Texture * ResourceManager::getHealthTexture()
 Texture * ResourceManager::getFuelTexture()
 {
 	return fuelTexture;
+}
+
+Texture * ResourceManager::getBackgroundTexture()
+{
+	return backgroundTexture;
 }

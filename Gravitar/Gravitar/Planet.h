@@ -10,8 +10,6 @@
 class Planet
 {
 protected:
-	int circumnference;
-	int nbunker;
 	std::vector<Vertex> terrainVertices;
 	Color terrainColor;
 	CircleShape icon;

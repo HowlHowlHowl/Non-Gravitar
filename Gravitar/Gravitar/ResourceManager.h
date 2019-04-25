@@ -14,6 +14,7 @@ class ResourceManager
 	Texture* rayTexture;
 	Texture* healthTexture;
 	Texture* fuelTexture;
+	Texture* backgroundTexture;
 
 public:
 	ResourceManager();
@@ -27,6 +28,7 @@ public:
 	Texture* getRayTexture();
 	Texture* getHealthTexture();
 	Texture* getFuelTexture();
+	Texture* getBackgroundTexture();
 };
 
 extern ResourceManager resourceManager;

@@ -7,11 +7,9 @@
 
 #define BUNKER_BULLET_RADIUS 3.0f
 
-enum direction
-{
-	RIGHT,
-	LEFT,
-	UP,
-	DOWN
-};
+#define NUMERO_PIANETI 6
+#define NUMERO_BUNKER 0
+#define NUMERO_BUNKER2 1
+
+#define SHIP_MAX_FUEL 5000.f
 

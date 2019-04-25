@@ -15,21 +15,19 @@ ship::ship()
 	shape.setSize(sf::Vector2f(30, 40));
 	shape.setOrigin(shape.getSize() / 2.0f);		
 	shape.setFillColor(Color::White);
-	life = 3;
 	ray.setTexture(resourceManager.getRayTexture());
-	init();
-	
-}
-void ship::init(){
-	//Respawn
-	std::cout << "SPAWN" << std::endl;
-	carburante = max_carburante;
-	this->xpos = 50.f;
-	this->ypos = 50.f;
-	shape.setPosition(xpos, ypos);
 
+	init();
+}
+
+void ship::init()
+{
+	life = 3;
+	carburante = max_carburante;
+	shape.setPosition(50.f, 50.f);
 	speed = 0.0f;
 }
+
 
 //Sparo e raccolta
 void ship::shoot(std::vector<Bullet> &bullets) {
@@ -40,7 +38,6 @@ void ship::shoot(std::vector<Bullet> &bullets) {
 }
 //Funzioni utili
 void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem) {
-
 
 	//Carico Texture Ship
 	shape.setTexture(resourceManager.getShipTexture());
@@ -72,15 +69,28 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem) {
 		float angle = degToRad(shape.getRotation() - 90);
 		Vector2f direction(cos(angle), sin(angle));
 
+		float xpos = shape.getPosition().x; 
 		xpos += direction.x * dt * speed;
+
+		float ypos = shape.getPosition().y;
 		ypos += direction.y * dt * speed;
-		carburante -= dt * speed;
+		carburante -= abs(dt * speed);
 		
 		float halfShipSize = shape.getSize().x / 2.f;
 		//Trattiene la ship nei margini if isInSystem
 		if (isInSystem) {
 			xpos = clamp(xpos, halfShipSize, VIEWPORT_WIDTH - halfShipSize);
 			ypos = clamp(ypos, halfShipSize, VIEWPORT_HEIGHT - halfShipSize);
+		}
+		else {
+			//Pacman sx
+			if (xpos < -50) {
+				xpos = PLANET_WIDTH + 50;
+			}
+			//Pacman dx
+			if (xpos > PLANET_WIDTH + 50) {
+				xpos = -50;
+			}
 		}
 		
 		//Aggiornamento posizione
@@ -96,6 +106,9 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem) {
 		ray.setPoint(2, pos3);
 		ray.setFillColor(Color::White);
 	
+	}
+	else {
+		Destroy(!isInSystem);
 	}
 	
 	//Spara se non e' nel sistema
@@ -129,7 +142,7 @@ void ship::drawHUD(RenderWindow& finestra) {
 
 	RectangleShape fuelRect;
 
-	if (carburante < 2500.f)
+	if (carburante < SHIP_MAX_FUEL / 4.f)
 		fuelRect.setFillColor(Color::Red);
 	else
 		fuelRect.setFillColor(Color::Green);
@@ -149,17 +162,22 @@ void ship::draw(RenderWindow &finestra) {
 	finestra.draw(shape);
 
 }
-void ship::Destroy() {
-
+void ship::Destroy(bool inPlanet) {
 	//Astronave distrutta, respawn e vita in meno
 	life--;
 	std::cout << "Vite rimaste: "<<life<< std::endl;
-	init();
-	//Rimedia (0,0) di init();
-	setPosition(PLANET_WIDTH / 2, 100);
+	carburante = max_carburante;
+	speed = 0.0f;
+	shape.setRotation(0.0f);
+	if (inPlanet) {
+		shape.setPosition(PLANET_WIDTH / 2, 100);
+	}
+	else {
+		shape.setPosition(0, 0);
+	}
 }
 Vector2f ship::getPosition() {
-	return Vector2f(xpos,ypos);
+	return shape.getPosition();
 }
 
 RectangleShape ship::getShape() { return shape; }
@@ -175,8 +193,7 @@ Vector2f ship::getPointRay(int x) {
 	return ray.getPoint(x);
 }
 void ship::setPosition(float x, float y) {
-	xpos = x;
-	ypos = y;
+	shape.setPosition(x, y);
 }
 float ship::getFuel() {
 	return carburante;

@@ -27,9 +27,6 @@ Planet::Planet()
 	nomeRandom[i] = 0;
 	nomePianeta = String(nomeRandom);
 
-	//Impostazioni del pianeta
-	nbunker = 5;
-	circumnference = 0;
 	//Impostazioni del terreno e spawn degli oggetti
 	terrainColor = Color::Green;
 	generateRandomTerrain();
@@ -82,7 +79,7 @@ void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vecto
 	//astronvave collision
 	if (intersectsTerrain(ship.getPosition(), ship.getShape().getSize().x / 2.f)) {
 		std::cout << "COllision!" << std::endl;
-		ship.Destroy();
+		ship.Destroy(true);
 	}
 	//Proiettili bunker - ship collision
 	for (int i = 0; i < bunkerBullets.size(); i++) {
@@ -99,7 +96,7 @@ void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vecto
 		else {
 			if (distance(shipPos, bunkBulletPos) < radius)
 			{
-				ship.Destroy();
+				ship.Destroy(true);
 				bunkerBullets.clear();
 			}
 		}
@@ -227,12 +224,12 @@ void Planet::deleteAllBunkers() {
 void Planet::generateBunkers()
 {
 	deleteAllBunkers();
-	for (int i = 0; i < nbunker; i++) {
+	for (int i = 0; i < NUMERO_BUNKER; i++) {
 		float rotation;
 		Vector2f pos = getRandomPointOnTerrain(rotation);
 		bunkers.push_back(new Bunker(pos, rotation));
 	}
-	for (int i = 0; i < nbunker; i++) {
+	for (int i = 0; i < NUMERO_BUNKER2; i++) {
 		float rotation;
 		Vector2f pos = getRandomPointOnTerrain(rotation);
 		bunkers.push_back(new Bunker2(pos, rotation));

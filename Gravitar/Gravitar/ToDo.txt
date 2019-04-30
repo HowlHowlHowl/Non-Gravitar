@@ -1,7 +1,8 @@
 TODO:
-_Debug spawn pianeti (inscritti in sezioni di cerchio)
+_we gud bb.
 
 DONE:
+_Debug spawn pianeti (inscritti in sezioni di cerchio)[V]
 _Movimento cam? [V]
 _Raggio traente [V]
 _Restart [V]

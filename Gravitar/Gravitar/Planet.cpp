@@ -111,7 +111,8 @@ void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vecto
 			i--;
 		}
 		else {
-			for (int j = 0; j < bunkers.size(); j++) {
+			bool projectileExists = true;
+			for (int j = 0; j < bunkers.size() && projectileExists; j++) {
 				Bunker* bunk = bunkers[j];
 				Vector2f bunkPos = bunk->getShape().getPosition();
 				Vector2f bunkSize = bunk->getShape().getSize();
@@ -127,8 +128,7 @@ void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vecto
 
 					shipBullets.erase(shipBullets.begin() + i);
 					i--;
-					// wait what, a wild break has appeared
-					break;
+					projectileExists = false;
 				}
 			}
 		}
@@ -262,6 +262,7 @@ bool Planet::isInsideTriangle(ship& ship) {
 	//Il fuel è nel raggio?
 	return (abs(area(a, b, c) - sum) < 0.01);
 }
+
 CircleShape Planet::getIcon() {
 	return icon;
 }

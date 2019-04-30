@@ -15,3 +15,8 @@ void Bunker2::shoot(std::vector<Bullet> &bullets)
 	bullets.emplace_back(pos + Vector2f(-20, 0), dir, BUNKER_BULLET_RADIUS, true);
 	bullets.emplace_back(pos, dir, BUNKER_BULLET_RADIUS, true);
 }
+
+int Bunker2::getScore()
+{
+	return 100;
+}

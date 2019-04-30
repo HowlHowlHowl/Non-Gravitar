@@ -1,6 +1,6 @@
 #include "Engine.h"
 #include <SFML\Graphics.hpp>
-#include <iostream>
+#include <sstream>
 #include "utils.h"
 
 using namespace sf;
@@ -12,24 +12,23 @@ Engine::Engine()
 {
 	srand((unsigned int)time(0));
 
-	finestra.create(VideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT),"Gravitar Game Engine");
+	finestra.create(VideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT), "Gravitar Game Engine");
 	finestra.setFramerateLimit(60);
-	font.loadFromFile("gamefont.ttf");
 	resourceManager.loadTextures();
-	
+
 	//Menu
 	NPianeta = 0;
 	generatePlanets();
 }
 
-void Engine::start(){
+void Engine::start() {
 
 	//Loop in game
 	Clock clock;
 	float dt;
-	
+
 	//Background set
-	Vector2f bg(VIEWPORT_WIDTH*2 , VIEWPORT_HEIGHT);
+	Vector2f bg(VIEWPORT_WIDTH * 2, VIEWPORT_HEIGHT);
 	background.setSize(bg);
 	background.setTexture(resourceManager.getBackgroundTexture());
 
@@ -45,7 +44,7 @@ void Engine::start(){
 			// Close window: exit
 			if (event.type == sf::Event::Closed || event.key.code == sf::Keyboard::Escape)
 				finestra.close();
-			
+
 			if (event.type == sf::Event::KeyPressed)
 			{
 				if (event.key.code == Keyboard::BackSpace)
@@ -53,7 +52,16 @@ void Engine::start(){
 					float rotation;
 					mapPlanets[NPianeta].getRandomPointOnTerrain(rotation);
 				}
+				if (event.key.code == Keyboard::Return)
+				{
+					for (int i = 0; i < mapPlanets.size(); i++) {
+						mapPlanets[i].deleteAllBunkers();
+					}
+					mapPlanets.clear();
+					generatePlanets();
+				}
 			}
+			
 		}
 
 		//restart del clock
@@ -107,11 +115,13 @@ void Engine::update(float dt) {
 
 			//Check distruzione pianeta
 			if (mapPlanets[NPianeta].destroyed()) {
+				globalScore += 500;
 
 				//Cancellazione pianeta dalla mappa
 				mapPlanets.erase(mapPlanets.begin() + NPianeta);
 
 				if (mapPlanets.size() == 0) {
+					globalScore += 10000;
 					generatePlanets();
 				}
 
@@ -124,6 +134,7 @@ void Engine::update(float dt) {
 
 			//Check vite astronave
 			if (!ship.isAlive()) {
+
 				state = GAMESTATE_OVER;
 			}
 		}break;
@@ -149,7 +160,7 @@ void Engine::draw() {
 			ship.draw(finestra);
 
 			for (int i = 0; i < mapPlanets.size(); i++) {
-				mapPlanets[i].drawIcon(finestra, font);
+				mapPlanets[i].drawIcon(finestra);
 			}
 
 			ship.drawHUD(finestra);
@@ -191,8 +202,8 @@ void Engine::draw() {
 			sf::Text retry;
 			
 			//Selezione del font
-			text.setFont(font);
-			retry.setFont(font);
+			text.setFont(*resourceManager.getFont());
+			retry.setFont(*resourceManager.getFont());
 
 			//set the string to display
 			text.setString("GAME OVER");
@@ -209,6 +220,15 @@ void Engine::draw() {
 			retry.setOrigin(retry.getLocalBounds().width / 2.f,
 				retry.getLocalBounds().height / 2.f);
 			finestra.setView(finestra.getDefaultView());
+
+			std::stringstream scoreString;
+			scoreString << "Score: " << globalScore;
+			sf::Text scoreText(sf::String(scoreString.str()), *resourceManager.getFont());
+			scoreText.setPosition(text.getPosition().x, text.getPosition().y + 200);
+			scoreText.setOrigin(scoreText.getLocalBounds().width / 2.0f,
+				                scoreText.getLocalBounds().height / 2.0f);
+			finestra.draw(scoreText);
+
 
 			finestra.draw(text);
 			finestra.draw(retry);
@@ -237,38 +257,12 @@ void Engine::planetSelection(){
 void Engine::generatePlanets() {
 	//Generazione mappa dei pianeti
 	for (int i = 0; i < NUMERO_PIANETI; i++) {
-		//Generazione del pianeta
-		Planet p;
+		float theta = degToRad(360.0f / NUMERO_PIANETI * i);
+		Vector2f pos(cos(theta), sin(theta));
+		Vector2f center(VIEWPORT_WIDTH / 2.f, VIEWPORT_HEIGHT / 2.f);
+		pos = pos * randrange(100, VIEWPORT_HEIGHT / 2.f) + center;
 
-		//Piu' pianeti, check dei pianeti
-		int k = 0;
-		while (k < i) {
-			//Se l'icona del pianeta *p interseca il pianeta mapPlanets[k]
-			if (p.getIcon().getGlobalBounds().intersects(mapPlanets[k].getIcon().getGlobalBounds())) {
-				cout << "INTERSECO UN PIANETA" << endl;
-				p = Planet();
-
-				k = 0;
-			}
-			//Se l'icona e' nello spawn dell'astronave
-			else if (p.getIcon().getGlobalBounds().intersects(ship.getShape().getGlobalBounds())) {
-				cout << "SPAWN ERRATO" << endl;
-				p = Planet();
-
-				k = 0;
-			}
-			//Se l'icona e' fuori dallo schermo
-			else if (p.getIcon().getPosition().x + (p.getIcon().getRadius()) > VIEWPORT_WIDTH || p.getIcon().getPosition().y + (p.getIcon().getRadius()) > VIEWPORT_HEIGHT || p.getIcon().getPosition().x < 0 || p.getIcon().getPosition().y < 0) {
-				cout << "SPAWN FUORI DAI LIMITI" << endl;
-				p = Planet();
-
-				k = 0;
-			}
-			else {
-				k++;
-			}
-		}
-
+		Planet p(pos);
 		mapPlanets.push_back(p);
 	}
 	//DEBUG
@@ -279,6 +273,10 @@ void Engine::generatePlanets() {
 void Engine::restartGame(){
 	state = GAMESTATE_SOLAR_SYSTEM;
 	ship.init();
+	globalScore = 0;
+	for (int i = 0; i < mapPlanets.size(); i++) {
+		mapPlanets[i].deleteAllBunkers();
+	}
 	mapPlanets.clear();
 	generatePlanets();
 }

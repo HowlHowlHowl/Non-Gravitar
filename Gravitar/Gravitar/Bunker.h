@@ -23,6 +23,7 @@ public:
 	RectangleShape getShape();
 	bool isAlive();
 	void takeDamage();
+	virtual int getScore();
 	virtual void shoot(std::vector<Bullet>& bullets);
 	void update(float dt, std::vector<Bullet> &bullets);
 };

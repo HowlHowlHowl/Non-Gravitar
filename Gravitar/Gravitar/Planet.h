@@ -23,7 +23,7 @@ protected:
 
 
 public:
-	Planet();
+	Planet(Vector2f pos);
 	bool isInsideTriangle(ship&ship);
 	void update(float dt,ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet> &bunkerBullets);
 	void draw(RenderWindow &window);
@@ -36,5 +36,5 @@ public:
 	void generateFuel();
 	Vector2f getRandomPointOnTerrain(float & rotation);
 	CircleShape getIcon();
-	void drawIcon(RenderWindow &window, Font& font);
+	void drawIcon(RenderWindow &window);
 };

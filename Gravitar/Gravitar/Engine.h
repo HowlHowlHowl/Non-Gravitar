@@ -22,8 +22,6 @@ protected:
 	RectangleShape background;
 	//Finestra
 	RenderWindow finestra;
-	//Font
-	Font font;
 	//GameObject
 	ship ship;
 	std::vector<Bullet> shipBullets;

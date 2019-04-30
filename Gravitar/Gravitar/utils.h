@@ -6,8 +6,11 @@
 
 using namespace sf;
 
+extern int globalScore;
+
 #define PI 3.14159265359f
 float randf01();
+float randrange(float a, float b);
 float radToDeg(float rad);
 float degToRad(float deg);
 float distance(Vector2f a, Vector2f b);

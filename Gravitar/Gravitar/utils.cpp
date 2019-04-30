@@ -1,6 +1,8 @@
 
 #include "utils.h"
 
+int globalScore;
+
 using namespace sf;
 
 //ritorna value ma compreso tra min e max
@@ -26,6 +28,12 @@ char randAlphanum()
 float randf01()
 {
 	return (float)((double)rand() / (double)RAND_MAX);
+}
+
+//ritorna un numero random tra a e b
+float randrange(float a, float b)
+{
+	return a + ((b - a) * randf01());
 }
 
 //Da radianti a gradi

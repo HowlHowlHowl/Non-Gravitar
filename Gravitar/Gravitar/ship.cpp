@@ -6,6 +6,7 @@
 #include "bullet.h"
 #include "Global.h"
 #include "utils.h"
+#include <iostream>
 
 using namespace sf;
 
@@ -124,6 +125,12 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem) {
 
 void ship::drawHUD(RenderWindow& finestra) {
 	float temp_x = 10.f;
+	
+	std::stringstream scoreString;
+	scoreString << "Score: " << globalScore;
+	sf::Text Text(sf::String(scoreString.str()), *resourceManager.getFont());
+	Text.setPosition(0, 0);
+	finestra.draw(Text);
 
 	for (int i = 0; i < life; i++) {
 		Sprite temp_sprite;
@@ -164,6 +171,7 @@ void ship::draw(RenderWindow &finestra) {
 }
 void ship::Destroy(bool inPlanet) {
 	//Astronave distrutta, respawn e vita in meno
+	globalScore -= 300;
 	life--;
 	std::cout << "Vite rimaste: "<<life<< std::endl;
 	carburante = max_carburante;
@@ -187,7 +195,11 @@ bool ship::isAlive() {
 	return true;
 }
 void ship::getBonus(float fuelAmount) {
+	globalScore += 25;
 	carburante += fuelAmount;
+	if (carburante > max_carburante) {
+		carburante = max_carburante;
+	}
 }
 Vector2f ship::getPointRay(int x) {
 	return ray.getPoint(x);

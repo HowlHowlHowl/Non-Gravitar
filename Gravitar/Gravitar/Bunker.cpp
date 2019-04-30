@@ -32,6 +32,12 @@ void Bunker::takeDamage()
 {
 	life--;
 }
+
+int Bunker::getScore()
+{
+	return 50;
+}
+
 void Bunker::update(float dt, std::vector<Bullet> &bullets) {
 	shootTime += dt;
 	if (shootTime > shootCooldown) {

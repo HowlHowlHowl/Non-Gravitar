@@ -8,12 +8,13 @@
 
 
 
-Planet::Planet()
+Planet::Planet(Vector2f pos)
 {
 	//Impostazioni icona del pianeta
 	icon.setRadius(20.f);
 	icon.setFillColor(sf::Color(rand() % 255, rand() % 255, rand() % 255));
-	icon.setPosition((float)(rand() % VIEWPORT_WIDTH-2*(icon.getRadius())), (float)(rand() % VIEWPORT_HEIGHT - 2 * (icon.getRadius())));
+	icon.setPosition(pos);
+	icon.setOrigin(Vector2f(10.f, 10.f));
 
 	//Nome random del pianeta (random 10 lettere)
 	char nomeRandom[11];
@@ -118,6 +119,7 @@ void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vecto
 				if (distance(shipBulletPos, bunkPos) < bunkSize.x / 2.f + shipBulletRadius) {
 					bunk->takeDamage();
 					if (!bunk->isAlive()) {
+						globalScore += bunk->getScore();
 						delete bunk;
 						bunkers.erase(bunkers.begin() + j);
 						j--;
@@ -153,10 +155,10 @@ void Planet::draw(RenderWindow &window) {
 	}
 }
 
-void Planet::drawIcon(RenderWindow &window, Font& font){
+void Planet::drawIcon(RenderWindow &window){
 	sf::Text text;
 	//Selezione del font
-	text.setFont(font);
+	text.setFont(*resourceManager.getFont());
 	//set the string to display
 	text.setString(nomePianeta);
 	//set the character size

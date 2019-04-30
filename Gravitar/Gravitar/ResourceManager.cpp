@@ -42,6 +42,9 @@ void ResourceManager::loadTextures() {
 	if (!backgroundTexture->loadFromFile("cosmos.png"))
 		std::cout << "Error: cannot loat cosmos.png" << std::endl;
 	backgroundTexture->setSmooth(true);
+
+	font = new Font();
+	font->loadFromFile("gamefont.ttf");
 }
 
 Texture * ResourceManager::getBunkerTexture()
@@ -80,4 +83,9 @@ Texture * ResourceManager::getFuelTexture()
 Texture * ResourceManager::getBackgroundTexture()
 {
 	return backgroundTexture;
+}
+
+Font* ResourceManager::getFont()
+{
+	return font;
 }

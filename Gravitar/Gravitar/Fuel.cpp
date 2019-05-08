@@ -8,13 +8,22 @@
 
 Fuel::Fuel(Vector2f pos)
 {
-	shape.setRadius(10.f);
-	shape.setFillColor(Color::White);
-	shape.setOrigin(shape.getRadius(), shape.getRadius()*2);
-	shape.setPosition(pos.x, pos.y);
-	
-	fuelTexture = resourceManager.getFuelTexture();
-	std::cout << "spawnBonus"<<std::endl;
+	isBig = rand() % 3;
+	if (isBig) {
+		shape.setRadius(12.f);
+		shape.setFillColor(Color::White);
+		shape.setOrigin(shape.getRadius(), shape.getRadius() * 2);
+		shape.setPosition(pos.x, pos.y);
+		fuelAmount = 7500.f;
+	} else {
+		shape.setRadius(9.f);
+		shape.setFillColor(Color::White);
+		shape.setOrigin(shape.getRadius(), shape.getRadius() * 2);
+		shape.setPosition(pos.x, pos.y);
+		fuelAmount = 5000.f;
+	}
+	fuelTexture = resourceManager.getFuelTexture(isBig);
+	std::cout << "spawnBonus "<<fuelAmount<<std::endl;
 	shape.setTexture(fuelTexture);
 }
 void Fuel::draw(RenderWindow&finestra)

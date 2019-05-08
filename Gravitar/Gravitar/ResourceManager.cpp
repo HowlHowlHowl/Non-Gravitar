@@ -33,6 +33,10 @@ void ResourceManager::loadTextures() {
 	if (!fuelTexture->loadFromFile("fuel.png"))
 		std::cout << "Error: cannot load fuel.png" << std::endl;
 
+	fuelBigTexture = new Texture();
+	if (!fuelBigTexture->loadFromFile("fuelBig.png"))
+		std::cout << "Error: cannot load fuelBig.png" << std::endl;
+
 	healthTexture = new Texture();
 	if(!healthTexture->loadFromFile("vita.png"))
 		std::cout << "Error: cannot loat vita.png" << std::endl;
@@ -75,9 +79,14 @@ Texture * ResourceManager::getHealthTexture()
 	return healthTexture;
 }
 
-Texture * ResourceManager::getFuelTexture()
+Texture * ResourceManager::getFuelTexture(bool isBig)
 {
-	return fuelTexture;
+	if (isBig) {
+		return fuelBigTexture;
+	}
+	else {
+		return fuelTexture;
+	}
 }
 
 Texture * ResourceManager::getBackgroundTexture()

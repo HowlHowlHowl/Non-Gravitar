@@ -10,11 +10,11 @@ using namespace sf;
 class Fuel
 {
 protected:
-	float fuelAmount = 5000.f;
+	float fuelAmount;
 	CircleShape shape;
-	float radius = 5.f;
 	bool took=false;
 	Texture* fuelTexture;
+	bool isBig;
 public:
 	Fuel(Vector2f pos);
 	void draw(RenderWindow &finestra);

@@ -14,6 +14,7 @@ class ResourceManager
 	Texture* rayTexture;
 	Texture* healthTexture;
 	Texture* fuelTexture;
+	Texture* fuelBigTexture;
 	Texture* backgroundTexture;
 	Font* font;
 
@@ -28,7 +29,7 @@ public:
 	Texture* getBulletTexture();
 	Texture* getRayTexture();
 	Texture* getHealthTexture();
-	Texture* getFuelTexture();
+	Texture* getFuelTexture(bool isBig);
 	Texture* getBackgroundTexture();
 
 	Font* getFont();

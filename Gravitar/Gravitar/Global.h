@@ -8,8 +8,8 @@
 #define BUNKER_BULLET_RADIUS 3.0f
 
 #define NUMERO_PIANETI 8
-#define NUMERO_BUNKER 7
-#define NUMERO_BUNKER2 3
+#define NUMERO_BUNKER 0
+#define NUMERO_BUNKER2 1
 
 #define SHIP_MAX_FUEL 10000.f
 

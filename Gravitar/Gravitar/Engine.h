@@ -4,7 +4,7 @@
 #include "bullet.h"
 #include "Planet.h"
 #include "ResourceManager.h"
-#include <vector>
+#include "Array.h"
 
 enum GameState {
 	GAMESTATE_SOLAR_SYSTEM,
@@ -24,9 +24,9 @@ protected:
 	RenderWindow finestra;
 	//GameObject
 	ship ship;
-	std::vector<Bullet> shipBullets;
-	std::vector<Bullet> bunkerBullets;
-	std::vector<Planet> mapPlanets;
+	Array<Bullet> shipBullets;
+	Array<Bullet> bunkerBullets;
+	Array<Planet> mapPlanets;
 	int NPianeta;
 
 
@@ -35,11 +35,9 @@ protected:
 	void draw();
 	void planetSelection();
 	void generatePlanets();
-	//void gameOver();
 	void restartGame();
 public:
 	Engine();
 	void start();
-	
 };
 

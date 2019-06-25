@@ -137,6 +137,7 @@
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Array.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="Bunker.h" />
     <ClInclude Include="Bunker2.h" />

@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "bullet.h"
-#include <vector>
+#include "Array.h"
 #include "Global.h"
 
 using namespace sf;
@@ -24,7 +24,7 @@ public:
 	bool isAlive();
 	void takeDamage();
 	virtual int getScore();
-	virtual void shoot(std::vector<Bullet>& bullets);
-	void update(float dt, std::vector<Bullet> &bullets);
+	virtual void shoot(Array<Bullet>& bullets);
+	void update(float dt, Array<Bullet> &bullets);
 };
 

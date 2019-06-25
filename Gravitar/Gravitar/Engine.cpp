@@ -12,7 +12,7 @@ Engine::Engine()
 {
 	srand((unsigned int)time(0));
 
-	finestra.create(VideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT), "Gravitar Game Engine");
+	finestra.create(VideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT), "Gravitar");
 	finestra.setFramerateLimit(60);
 	resourceManager.loadTextures();
 
@@ -118,7 +118,7 @@ void Engine::update(float dt) {
 				globalScore += 500;
 
 				//Cancellazione pianeta dalla mappa
-				mapPlanets.erase(mapPlanets.begin() + NPianeta);
+				mapPlanets.remove(NPianeta);
 
 				if (mapPlanets.size() == 0) {
 					globalScore += 10000;
@@ -129,7 +129,8 @@ void Engine::update(float dt) {
 				state = GAMESTATE_SOLAR_SYSTEM;
 
 				//Respawn dell'astronave
-				ship.setPosition(0, 0);
+				ship.getShape().setPosition(0, 0);
+				ship.getShape().setRotation(0);
 			}
 
 			//Check vite astronave
@@ -262,8 +263,7 @@ void Engine::generatePlanets() {
 		Vector2f center(VIEWPORT_WIDTH / 2.f, VIEWPORT_HEIGHT / 2.f);
 		pos = pos * randrange(100, VIEWPORT_HEIGHT / 2.f) + center;
 
-		Planet p(pos);
-		mapPlanets.push_back(p);
+		mapPlanets.add(Planet(pos));
 	}
 	//DEBUG
 	cout << "Pianeta spawnato" << endl;

@@ -38,7 +38,7 @@ int Bunker::getScore()
 	return 50;
 }
 
-void Bunker::update(float dt, std::vector<Bullet> &bullets) {
+void Bunker::update(float dt, Array<Bullet> &bullets) {
 	shootTime += dt;
 	if (shootTime > shootCooldown) {
 		shoot(bullets);
@@ -46,11 +46,14 @@ void Bunker::update(float dt, std::vector<Bullet> &bullets) {
 	}
 
 }
-void Bunker::shoot(std::vector<Bullet> &bullets)
+void Bunker::shoot(Array<Bullet> &bullets)
 {
 	Vector2f pos = shape.getPosition();
-	Vector2f dir(0.0f, -1.0f);
-	bullets.emplace_back(pos + Vector2f(20, 0), dir, BUNKER_BULLET_RADIUS, true);
-	bullets.emplace_back(pos + Vector2f(-20, 0), dir, BUNKER_BULLET_RADIUS, true);
+	float angle1 = degToRad(randrange(60.0f, 90.0f));
+	float angle2 = degToRad(randrange(90.0f, 120.0f));
+	Vector2f dir1(cos(angle1), -sin(angle1));
+	Vector2f dir2(cos(angle2), -sin(angle2));
+	bullets.add(Bullet(pos + Vector2f(20, 0), dir1, BUNKER_BULLET_RADIUS, true));
+	bullets.add(Bullet(pos + Vector2f(-20, 0), dir2, BUNKER_BULLET_RADIUS, true));
 }
 

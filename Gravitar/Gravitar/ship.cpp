@@ -31,14 +31,14 @@ void ship::init()
 
 
 //Sparo e raccolta
-void ship::shoot(std::vector<Bullet> &bullets) {
+void ship::shoot(Array<Bullet> &bullets) {
 
 	float angle = degToRad(shape.getRotation() - 90);
 	Vector2f direction(cos(angle), sin(angle));
-  	bullets.emplace_back(shape.getPosition(), direction, 5.f, false);
+  	bullets.add(Bullet(shape.getPosition(), direction, 5.f, false));
 }
 //Funzioni utili
-void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem) {
+void ship::update(float dt, Array<Bullet> &bullets,bool isInSystem) {
 
 	//Carico Texture Ship
 	shape.setTexture(resourceManager.getShipTexture());
@@ -47,11 +47,11 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem) {
 	if (carburante > 0) {
 		if (Keyboard::isKeyPressed(Keyboard::Left))
 		{
-			shape.setRotation(shape.getRotation() - 200 * dt);
+			shape.setRotation(shape.getRotation() - angular_speed * dt);
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Right))
 		{
-			shape.setRotation(shape.getRotation() + 200 * dt);		
+			shape.setRotation(shape.getRotation() + angular_speed * dt);
 		}
 
 		if (Keyboard::isKeyPressed(Keyboard::Up)) {
@@ -84,6 +84,8 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem) {
 			ypos = clamp(ypos, halfShipSize, VIEWPORT_HEIGHT - halfShipSize);
 		}
 		else {
+			xpos = clamp(xpos, halfShipSize, PLANET_WIDTH - halfShipSize);
+			/*
 			//Pacman sx
 			if (xpos < -50) {
 				xpos = PLANET_WIDTH + 50;
@@ -92,6 +94,7 @@ void ship::update(float dt,std::vector<Bullet> &bullets,bool isInSystem) {
 			if (xpos > PLANET_WIDTH + 50) {
 				xpos = -50;
 			}
+			*/
 		}
 		
 		//Aggiornamento posizione
@@ -135,8 +138,7 @@ void ship::drawHUD(RenderWindow& finestra) {
 	for (int i = 0; i < life; i++) {
 		Sprite temp_sprite;
 		temp_sprite.setTexture(*resourceManager.getHealthTexture());
-
-		//Posizione temporanea dei cuori
+		//Posizione dei cuori
 		temp_sprite.setPosition(temp_x, VIEWPORT_HEIGHT - 50);
 
 
@@ -172,8 +174,16 @@ void ship::draw(RenderWindow &finestra) {
 void ship::Destroy(bool inPlanet) {
 	//Astronave distrutta, respawn e vita in meno
 	globalScore -= 300;
-	life--;
-	std::cout << "Vite rimaste: "<<life<< std::endl;
+	if (carburante < 0)
+	{
+		life = 0;
+	}
+	else
+	{
+		life--;
+	}
+
+	//std::cout << "Vite rimaste: "<<life<< std::endl;
 	carburante = max_carburante;
 	speed = 0.0f;
 	shape.setRotation(0.0f);

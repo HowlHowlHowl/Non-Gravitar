@@ -10,10 +10,10 @@
 class Planet
 {
 protected:
-	std::vector<Vertex> terrainVertices;
+	Array<Vertex> terrainVertices;
 	Color terrainColor;
 	CircleShape icon;
-	std::vector<Bunker*> bunkers;
+	Array<Bunker*> bunkers;
 	String nomePianeta;
 	Fuel *fuelBonus = NULL;
 	float bonusSpawn = 15.f;
@@ -21,13 +21,13 @@ protected:
 	float max_bonus = 3;
 	bool isOutOfPlanet(Vector2f pos, float radius);
 
-
 public:
+	Planet();
 	Planet(Vector2f pos);
 	bool isInsideTriangle(ship&ship);
-	void update(float dt,ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet> &bunkerBullets);
+	void update(float dt,ship &ship, Array<Bullet>& shipBullets, Array<Bullet> &bunkerBullets);
 	void draw(RenderWindow &window);
-	void collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet> &bunkerBullets);
+	void collisions(ship &ship, Array<Bullet>& shipBullets, Array<Bullet> &bunkerBullets);
 	bool destroyed();
 	bool intersectsTerrain(Vector2f pos, float radius);
 	void generateRandomTerrain();

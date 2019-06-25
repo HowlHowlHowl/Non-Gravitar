@@ -8,6 +8,10 @@
 
 
 
+Planet::Planet()
+{
+}
+
 Planet::Planet(Vector2f pos)
 {
 	//Impostazioni icona del pianeta
@@ -42,7 +46,7 @@ void Planet::generateFuel()
 	fuelBonus = new Fuel(pos);
 
 }
-void Planet::update(float dt,ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet> &bunkerBullets){
+void Planet::update(float dt,ship &ship, Array<Bullet>& shipBullets, Array<Bullet> &bunkerBullets){
 	//Aggiornamento gameobject
 	for (int i = 0; i < bunkers.size(); i++) {
 		bunkers[i]->update(dt, bunkerBullets);
@@ -76,7 +80,7 @@ bool Planet::isOutOfPlanet(Vector2f pos, float radius) {
 	}
 }
 
-void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vector<Bullet>& bunkerBullets) {
+void Planet::collisions(ship &ship, Array<Bullet>& shipBullets, Array<Bullet>& bunkerBullets) {
 	//astronvave collision
 	if (intersectsTerrain(ship.getPosition(), ship.getShape().getSize().x / 2.f)) {
 		std::cout << "COllision!" << std::endl;
@@ -91,7 +95,7 @@ void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vecto
 
 		float radius = shipHalfSize + bunkBulletRadius;
 		if (isOutOfPlanet(bunkBulletPos, bunkBulletRadius)) {
-			bunkerBullets.erase(bunkerBullets.begin() + i);
+			bunkerBullets.remove(i);
 			i--;
 		}
 		else {
@@ -107,7 +111,7 @@ void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vecto
 		Vector2f shipBulletPos = shipBullets[i].getShape().getPosition();
 		float shipBulletRadius = shipBullets[i].getShape().getRadius();
 		if (isOutOfPlanet(shipBulletPos, shipBulletRadius)) {
-			shipBullets.erase(shipBullets.begin() + i);
+			shipBullets.remove(i);
 			i--;
 		}
 		else {
@@ -122,11 +126,11 @@ void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vecto
 					if (!bunk->isAlive()) {
 						globalScore += bunk->getScore();
 						delete bunk;
-						bunkers.erase(bunkers.begin() + j);
+						bunkers.remove(j);
 						j--;
 					}
 
-					shipBullets.erase(shipBullets.begin() + i);
+					shipBullets.remove(i);
 					i--;
 					projectileExists = false;
 				}
@@ -138,7 +142,7 @@ void Planet::collisions(ship &ship, std::vector<Bullet>& shipBullets, std::vecto
 	for (int i = 0; i < shipBullets.size(); i++) {
 		CircleShape bullet = shipBullets[i].getShape();
 		if (intersectsTerrain(bullet.getPosition(), bullet.getRadius())) {
-			shipBullets.erase(shipBullets.begin() + i);
+			shipBullets.remove(i);
 			i--;
 		}
 	}
@@ -212,7 +216,7 @@ void Planet::generateRandomTerrain()
 	{
 		Vector2f pos((float)PLANET_WIDTH / vertCount * i, (float)(rand() % DeltaY + MinY));
 		Vertex vert(pos, terrainColor);
-		terrainVertices.push_back(vert);
+		terrainVertices.add(vert);
 	}
 }
 
@@ -229,12 +233,12 @@ void Planet::generateBunkers()
 	for (int i = 0; i < NUMERO_BUNKER; i++) {
 		float rotation;
 		Vector2f pos = getRandomPointOnTerrain(rotation);
-		bunkers.push_back(new Bunker(pos, rotation));
+		bunkers.add(new Bunker(pos, rotation));
 	}
 	for (int i = 0; i < NUMERO_BUNKER2; i++) {
 		float rotation;
 		Vector2f pos = getRandomPointOnTerrain(rotation);
-		bunkers.push_back(new Bunker2(pos, rotation));
+		bunkers.add(new Bunker2(pos, rotation));
 	}
 }
 Vector2f Planet::getRandomPointOnTerrain(float& rotation)

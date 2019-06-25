@@ -5,6 +5,10 @@
 
 using namespace sf;
 
+Bullet::Bullet()
+{
+}
+
 Bullet::Bullet(Vector2f pos, Vector2f dir_I, float radius, bool isEvil)
 {
 	

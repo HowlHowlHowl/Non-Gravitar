@@ -5,6 +5,7 @@
 
 Bunker::Bunker(Vector2f pos, float rotation)
 {
+	life = BUNK_LIFE;
 	shape.setPosition(pos);
 	shape.setRotation(rotation);
 	shape.setSize(Vector2f(bunkerWidth, bunkerHeight));

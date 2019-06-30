@@ -10,6 +10,7 @@
 #define NUMERO_PIANETI 6
 #define NUMERO_BUNKER 3
 #define NUMERO_BUNKER2 2
-
+#define BUNK_LIFE 2
+#define BUNK2_LIFE 4
 #define SHIP_MAX_FUEL 5000.f
 

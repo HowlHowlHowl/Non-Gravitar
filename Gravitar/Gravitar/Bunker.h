@@ -11,7 +11,7 @@ class Bunker
 {
 protected:
 	RectangleShape shape;
-	int life = 3;
+	int life = 0;
 	float bunkerHeight = 15.f;
 	float bunkerWidth = 30.f;
 	float shootTime = 0.f;

@@ -4,6 +4,7 @@
 
 Bunker2::Bunker2(Vector2f pos, float rotation) : Bunker(pos, rotation)
 {
+	life = BUNK2_LIFE;
 	shape.setTexture(resourceManager.getBunker2Texture());
 }
 

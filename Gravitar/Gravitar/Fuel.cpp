@@ -8,7 +8,12 @@
 
 Fuel::Fuel(Vector2f pos)
 {
-	isBig = rand() % 3;
+	if ((rand() % 4) != 0) {
+		isBig = false;
+	}
+	else {
+		isBig = true;
+	}
 	if (isBig) {
 		shape.setRadius(12.f);
 		shape.setFillColor(Color::White);

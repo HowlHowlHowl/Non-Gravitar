@@ -34,10 +34,6 @@ void Bullet::draw(RenderWindow &finestra) {
 	finestra.draw(shape);
 }
 
-void Bullet::spawn() {
-
-}
-
 CircleShape Bullet::getShape() { 
 	return shape; 
 };

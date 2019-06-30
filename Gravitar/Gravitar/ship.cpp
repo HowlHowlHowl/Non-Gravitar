@@ -23,7 +23,7 @@ ship::ship()
 
 void ship::init()
 {
-	life = 3;
+	life = 4;
 	carburante = max_carburante;
 	shape.setPosition(50.f, 50.f);
 	speed = 0.0f;

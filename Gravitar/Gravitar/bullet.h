@@ -16,7 +16,6 @@ public:
 	Bullet(Vector2f pos, Vector2f dir_I, float radius, bool isEvil);
 	void update(float dt);
 	void draw(RenderWindow &finestra);
-	void spawn();
 	CircleShape getShape();
 
 };
